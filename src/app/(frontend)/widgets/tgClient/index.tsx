@@ -54,7 +54,14 @@ export default function TgClient () {
           photoUrl: user.photo_url,
           isDataValid: false, // Изначально считаем, что данные невалидны
         };
-        setUserData(data);
+        setUserData({
+          id: user.id,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          username: user.username,
+          photoUrl: user.photo_url,
+          isDataValid: false, // Изначально считаем, что данные невалидны
+        });
         // Отправляем initData на сервер для проверки подписи
         fetch('/api/verify-telegram-data', {
           method: 'POST',
@@ -95,17 +102,14 @@ export default function TgClient () {
     <div>
       <h1>Информация от ТГ АПП</h1>
       <>{tgStatus}</>
-      {userData.isDataValid ? (
-        <>
-          <p>User ID: {userData.id}</p>
-          <p>First Name: {userData.firstName}</p>
-          {userData.lastName && <p>Last Name: {userData.lastName}</p>}
-          {userData.username && <p>Username: {userData.username}</p>}
-          {userData.photoUrl && <img src={userData.photoUrl} alt="User Photo" />}
-        </>
-      ) : (
-        <p>Loading user data...</p>
-      )}
+      <>
+        <p>User ID: {userData.id}</p>
+        <p>First Name: {userData.firstName}</p>
+        {userData.lastName && <p>Last Name: {userData.lastName}</p>}
+        {userData.username && <p>Username: {userData.username}</p>}
+        {userData.photoUrl && <img src={userData.photoUrl} alt="User Photo" />}
+      </>
+
     </div>
   )
 }
