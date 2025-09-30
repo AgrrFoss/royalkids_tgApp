@@ -71,21 +71,21 @@ export default buildConfig({
         baseLanguage: 'ru'
       }
     }),
-    // s3Storage({
-    //   enabled: process.env.MINIO_STORAGE_ENABLE === 'true',
-    //   collections: {
-    //     media: true,
-    //   },
-    //   bucket: `${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET_NAME}`,
-    //   config: {
-    //     credentials: {
-    //       accessKeyId: process.env.MINIO_USER || '',
-    //       secretAccessKey: process.env.MINIO_SECRET || '',
-    //     },
-    //     region: process.env.MINIO_REGION,
-    //     endpoint: process.env.MINIO_ENDPOINT,
-    //     bucketEndpoint: true,
-    //   },
-    // }),
+    s3Storage({
+      enabled: process.env.MINIO_STORAGE_ENABLE === 'true',
+      collections: {
+        media: true,
+      },
+      bucket: `${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET_NAME}`,
+      config: {
+        credentials: {
+          accessKeyId: process.env.MINIO_USER || '',
+          secretAccessKey: process.env.MINIO_SECRET || '',
+        },
+        region: process.env.MINIO_REGION,
+        endpoint: process.env.MINIO_ENDPOINT,
+        bucketEndpoint: true,
+      },
+    }),
   ],
 })
