@@ -33,7 +33,7 @@ interface UserData {
 }
 
 export default function TgClient () {
-  const [userData, setUserData] = useState<UserData>({ isDataValid: false });
+  const [userData, setUserData] = useState<UserData>({ isDataValid: true });
   const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен');
 
   useEffect(() => {
