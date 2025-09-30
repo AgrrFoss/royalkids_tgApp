@@ -7,6 +7,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { Media } from '@/payload-types'
+import TgClient from '@front/widgets/tgClient'
 
 
 // export async function  generateStaticParams() {
@@ -48,6 +49,7 @@ export default async function Page ({params: paramsPromise}: IPageProps) {
       <>
         {page && (
           <main className={styles.main}>
+            <TgClient/>
             <div className={styles.imgContainer}>
               <div className={styles.card}>
                 {

@@ -90,6 +90,7 @@ export default function TgClient () {
 
   return (
     <div>
+      <h1>Информация от ТГ АПП</h1>
       {userData.isDataValid ? (
         <>
           <p>User ID: {userData.id}</p>
