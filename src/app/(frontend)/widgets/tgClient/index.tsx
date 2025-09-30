@@ -34,15 +34,18 @@ interface UserData {
 
 export default function TgClient () {
   const [userData, setUserData] = useState<UserData>({ isDataValid: false });
+  const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен');
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
 
     if (tg) {
+      setTgStatus('Подключен ТГ')
       const initDataUnsafe = tg.initDataUnsafe || {};
       const user = initDataUnsafe.user;
 
       if (user) {
+        setTgStatus('есть юзер')
         const data = {
           id: user.id,
           firstName: user.first_name,
@@ -51,7 +54,7 @@ export default function TgClient () {
           photoUrl: user.photo_url,
           isDataValid: false, // Изначально считаем, что данные невалидны
         };
-
+        setUserData(data);
         // Отправляем initData на сервер для проверки подписи
         fetch('/api/verify-telegram-data', {
           method: 'POST',
@@ -85,12 +88,13 @@ export default function TgClient () {
         console.log('User data not available.');
       }
     }
-  }, []);
+  }, [tgStatus, userData]);
 
 
   return (
     <div>
       <h1>Информация от ТГ АПП</h1>
+      <>{tgStatus}</>
       {userData.isDataValid ? (
         <>
           <p>User ID: {userData.id}</p>
