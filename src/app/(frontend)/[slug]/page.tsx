@@ -51,7 +51,7 @@ export default async function Page ({params: paramsPromise}: IPageProps) {
             <div className={styles.imgContainer}>
               <div className={styles.card}>
                 {
-                  image.url && (
+                  image?.url && (
                     <Image
                       src={image.url}
                       alt={image.alt}
@@ -66,7 +66,7 @@ export default async function Page ({params: paramsPromise}: IPageProps) {
               </div>
               <div className={styles.card}>
                 {
-                  image2.url && (
+                  image2?.url && (
                     <Image
                       src={image2?.url}
                       alt={image2?.alt}

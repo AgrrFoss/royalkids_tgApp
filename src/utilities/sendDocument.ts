@@ -16,14 +16,14 @@
 //   return sendFunction
 // }
 
-const sendDocument = async (endpoint: string, body: any) => {
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/${endpoint}`, {
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body)
-  })
-}
-
-export default sendDocument
+// const sendDocument = async (endpoint: string, body: any) => {
+//   return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/${endpoint}`, {
+//     method: 'POST',
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(body)
+//   })
+// }
+//
+// export default sendDocument

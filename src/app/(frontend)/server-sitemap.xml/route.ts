@@ -6,7 +6,7 @@ import { unstable_cache } from 'next/cache'
 const getPagesSitemap = unstable_cache(
   async () => {
     const pages = await getDocuments('pages') as DataFromCollectionSlug<'pages'>[]
-    const articles = await getDocuments('articles') as DataFromCollectionSlug<'articles'>[]
+    // const articles = await getDocuments('articles') as DataFromCollectionSlug<'articles'>[]
     const SITE_URL =
       process.env.NEXT_PUBLIC_SERVER_URL ||
       'https://example.com'
@@ -17,11 +17,12 @@ const getPagesSitemap = unstable_cache(
       loc: `${SITE_URL}/${page?.slug}`,
       lastmod: page.updatedAt || dateFallback,
     })) : []
-    const articlesSitemap = articles && articles.length > 0 ? articles.map((article) => ({
-      loc: `${SITE_URL}/blog/${article.slug}`,
-      lastmod: article.updatedAt || dateFallback,
-    })) : []
-    const sitemap = [...pagesSitemap, ...articlesSitemap]
+    // const articlesSitemap = articles && articles.length > 0 ? articles.map((article) => ({
+    //   loc: `${SITE_URL}/blog/${article.slug}`,
+    //   lastmod: article.updatedAt || dateFallback,
+    // })) : []
+    // const sitemap = [...pagesSitemap, ...articlesSitemap]
+    const sitemap = [...pagesSitemap]
     return sitemap
   },
   ['pages-sitemap', 'articles-sitemap'],
