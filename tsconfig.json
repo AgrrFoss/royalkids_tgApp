@@ -23,12 +23,15 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@payload-config": [
-        "./src/payload.config.ts"
-      ]
+      "@/*": ["./src/*"],
+      "@payload-config": ["./src/payload.config.ts"],
+      "@public/*": ["./public/*"],
+      "@icons/*": ["./public/images/icons/*"],
+      "@images/*": ["./public/images/*"],
+      "@styles/*": ["./src/shared/styles/*"],
+      "@front/*": ["./src/app/(frontend)/*"],
+      "@cms/*": ["./src/cms/*"],
+      "@blocks/*": ["./src/shared/blocks/*"],
     },
     "target": "ES2022",
   },
@@ -40,5 +43,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
+  ]
 }

@@ -7,20 +7,40 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
-import { Users } from './collections/Users'
-import { Media } from './collections/Media'
+import { Admins } from '@cms/collections/Admins'
+import { Media } from '@cms/collections/Media'
+import process from 'node:process'
+import addFriendlyUrl from '@cms/plugins/addFriendlyURL/addFriendlyUrl'
+import { s3Storage } from '@payloadcms/storage-s3'
+import { seoPlugin } from '@payloadcms/plugin-seo'
+import { Pages } from '@cms/collections/Pages'
+import Options from '@cms/globals/Options'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
-    user: Users.slug,
+    user: Admins.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    meta: {
+      icons: [
+        {
+          rel: 'icon',
+          type: 'image/png',
+          url: '/favicon.png',
+        }
+      ]
+    }
   },
-  collections: [Users, Media],
+  // Заменяем стандартный роут админки
+  routes: {
+    admin: '/cms-mng-panel'
+  },
+  collections: [Admins, Media, Pages],
+  globals: [Options],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -34,6 +54,38 @@ export default buildConfig({
   sharp,
   plugins: [
     payloadCloudPlugin(),
-    // storage-adapter-placeholder
+    seoPlugin({
+      collections: ['pages'],
+      globals: ['options'],
+      uploadsCollection: 'media',
+    }),
+    addFriendlyUrl({
+      enable: true,
+      currentCollections: ['pages'],
+      slugField: {
+        slug: 'slug',
+        label: 'slug',
+        inSidebar: true,
+      },
+      rewriteRules: {
+        baseLanguage: 'ru'
+      }
+    }),
+    // s3Storage({
+    //   enabled: process.env.MINIO_STORAGE_ENABLE === 'true',
+    //   collections: {
+    //     media: true,
+    //   },
+    //   bucket: `${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET_NAME}`,
+    //   config: {
+    //     credentials: {
+    //       accessKeyId: process.env.MINIO_USER || '',
+    //       secretAccessKey: process.env.MINIO_SECRET || '',
+    //     },
+    //     region: process.env.MINIO_REGION,
+    //     endpoint: process.env.MINIO_ENDPOINT,
+    //     bucketEndpoint: true,
+    //   },
+    // }),
   ],
 })
