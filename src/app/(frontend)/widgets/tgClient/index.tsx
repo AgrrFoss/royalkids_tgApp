@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
+import { validateTgSignature } from '@front/widgets/tgClient/verify-telegram-data'
 interface TelegramWebAppUser {
   id: number;
   first_name: string;
@@ -36,14 +37,12 @@ export default function TgClient () {
   const [userData, setUserData] = useState<UserData>({ isDataValid: true });
   const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен');
 
-  useEffect(() => {
+  useEffect( () => {
     const tg = window.Telegram?.WebApp;
-
     if (tg) {
       setTgStatus('Подключен ТГ')
       const initDataUnsafe = tg.initDataUnsafe || {};
       const user = initDataUnsafe.user;
-
       if (user) {
         setTgStatus('есть юзер')
         const data = {
@@ -62,35 +61,67 @@ export default function TgClient () {
           photoUrl: user.photo_url,
           isDataValid: false, // Изначально считаем, что данные невалидны
         });
-        // Отправляем initData на сервер для проверки подписи
-        fetch('/api/verify-telegram-data', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ initData: tg.initData }),
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (data.isValid) {
-              setUserData({
-                id: user.id,
-                firstName: user.first_name,
-                lastName: user.last_name,
-                username: user.username,
-                photoUrl: user.photo_url,
-                isDataValid: true,
-              });
-            } else {
-              console.error('Telegram data is not valid!');
-              // Обработка случая, когда данные не прошли проверку
-              setUserData(prevState => ({...prevState, isDataValid: false}))
-            }
-          })
-          .catch(error => {
-            console.error('Error verifying Telegram data:', error);
-            setUserData(prevState => ({...prevState, isDataValid: false}))
+        const checkSignature = async (initData: string) => {
+          try {
+            const isValid = await validateTgSignature(initData);
+            setUserData({...userData, isDataValid: isValid.isValid })
+          } catch(err) {
+            throw new Error('Ошибка проверки подписи')
+          }
+        }
+        checkSignature(tg.initData)
+        if (userData.isDataValid) {
+          setUserData({
+            id: user.id,
+            firstName: user.first_name,
+            lastName: user.last_name,
+            username: user.username,
+            photoUrl: user.photo_url,
+            isDataValid: true,
           });
+        } else {
+          console.error('Telegram data is not valid!');
+          // Обработка случая, когда данные не прошли проверку
+          setUserData(prevState => ({...prevState, isDataValid: false}))
+        }
+
+
+
+
+
+
+        // Отправляем initData на сервер для проверки подписи
+        // fetch('/api/verify-telegram-data', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({ initData: tg.initData }),
+        // })
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     if (data.isValid) {
+        //       setUserData({
+        //         id: user.id,
+        //         firstName: user.first_name,
+        //         lastName: user.last_name,
+        //         username: user.username,
+        //         photoUrl: user.photo_url,
+        //         isDataValid: true,
+        //       });
+        //     } else {
+        //       console.error('Telegram data is not valid!');
+        //       // Обработка случая, когда данные не прошли проверку
+        //       setUserData(prevState => ({...prevState, isDataValid: false}))
+        //     }
+        //   })
+        //   .catch(error => {
+        //     console.error('Error verifying Telegram data:', error);
+        //     setUserData(prevState => ({...prevState, isDataValid: false}))
+        //   });
+
+
+
       } else {
         console.log('User data not available.');
       }
@@ -108,6 +139,7 @@ export default function TgClient () {
         {userData.lastName && <p>Last Name: {userData.lastName}</p>}
         {userData.username && <p>Username: {userData.username}</p>}
         {userData.photoUrl && <img src={userData.photoUrl} alt="User Photo" />}
+        {userData.isDataValid && <p>Данные валидны</p>}
       </>
 
     </div>
