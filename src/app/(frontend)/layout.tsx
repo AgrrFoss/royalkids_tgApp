@@ -1,5 +1,6 @@
 import React from 'react'
 import './global.scss'
+import Script from 'next/script'
 
 
 export const metadata = {
@@ -13,6 +14,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
       </head>
         <body>
         {children}
