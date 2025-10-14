@@ -1,6 +1,12 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { validateTgSignature } from '@front/widgets/tgClient/verify-telegram-data'
+import dynamic from 'next/dynamic';
+const TgScript = dynamic(
+  () => import('@front/widgets/tgClient/tgScript'), // Создаем отдельный компонент для скрипта
+  { ssr: false } // Отключаем SSR для этого компонента
+)
+
 interface TelegramWebAppUser {
   id: number;
   first_name: string;
@@ -93,6 +99,7 @@ export default function TgClient () {
 
   return (
     <div>
+      <TgScript/>
       <h1>Информация от ТГ АПП</h1>
       <>{tgStatus}</>
       <>
