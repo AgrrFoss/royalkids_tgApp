@@ -43,7 +43,6 @@ export default async function Page ({params: paramsPromise}: IPageProps) {
   const cities = await getCachedDocuments('pages', 2)() as DataFromCollectionSlug<'pages'>[]
   if(!page){notFound()}
 
-  const image = page.image as Media
   const image2 = page.image2 as Media
   return (
     page && (
@@ -52,21 +51,6 @@ export default async function Page ({params: paramsPromise}: IPageProps) {
           <main className={styles.main}>
             <TgClient/>
             <div className={styles.imgContainer}>
-              <div className={styles.card}>
-                {
-                  image?.url && (
-                    <Image
-                      src={image.url}
-                      alt={image.alt}
-                      fill={true}
-                      className={styles.image}
-                      priority={true}
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  )
-                }
-                <span className={styles.span}>Текст карточки 1</span>
-              </div>
               <div className={styles.card}>
                 {
                   image2?.url && (
