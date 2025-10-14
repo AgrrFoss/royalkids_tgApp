@@ -44,6 +44,9 @@ export default function TgClient () {
   const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен');
 
   useEffect( () => {
+    if (typeof window === undefined) {
+      setTgStatus('объект window недоступен')
+    }
     const tg = window.Telegram?.WebApp;
     if (tg) {
       setTgStatus('Подключен ТГ')
