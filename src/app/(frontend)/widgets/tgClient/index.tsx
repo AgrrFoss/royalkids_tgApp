@@ -84,44 +84,6 @@ export default function TgClient () {
           // Обработка случая, когда данные не прошли проверку
           setUserData(prevState => ({...prevState, isDataValid: false}))
         }
-
-
-
-
-
-
-        // Отправляем initData на сервер для проверки подписи
-        // fetch('/api/verify-telegram-data', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify({ initData: tg.initData }),
-        // })
-        //   .then(response => response.json())
-        //   .then(data => {
-        //     if (data.isValid) {
-        //       setUserData({
-        //         id: user.id,
-        //         firstName: user.first_name,
-        //         lastName: user.last_name,
-        //         username: user.username,
-        //         photoUrl: user.photo_url,
-        //         isDataValid: true,
-        //       });
-        //     } else {
-        //       console.error('Telegram data is not valid!');
-        //       // Обработка случая, когда данные не прошли проверку
-        //       setUserData(prevState => ({...prevState, isDataValid: false}))
-        //     }
-        //   })
-        //   .catch(error => {
-        //     console.error('Error verifying Telegram data:', error);
-        //     setUserData(prevState => ({...prevState, isDataValid: false}))
-        //   });
-
-
-
       } else {
         console.log('User data not available.');
       }

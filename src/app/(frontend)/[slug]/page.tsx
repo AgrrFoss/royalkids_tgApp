@@ -8,6 +8,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { Media } from '@/payload-types'
 import TgClient from '@front/widgets/tgClient'
+import Link from 'next/link'
 
 
 // export async function  generateStaticParams() {
@@ -79,6 +80,7 @@ export default async function Page ({params: paramsPromise}: IPageProps) {
                   )
                 }
                 <span className={styles.span}>Текст карточки 2</span>
+                <Link href={'/trial'}>Записаться на пробное</Link>
               </div>
             </div>
           </main>
