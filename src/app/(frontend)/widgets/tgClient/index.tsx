@@ -39,64 +39,141 @@ interface UserData {
   // Другие поля
 }
 
+const waitForTelegram = (): Promise<void> => {
+  return new Promise<void>((resolve) => {
+    const checkTelegram = () => {
+      if (window.Telegram && window.Telegram.WebApp) {
+        resolve();
+      } else {
+        setTimeout(checkTelegram, 50); // Проверяем каждые 50 миллисекунд
+      }
+    };
+    checkTelegram();
+  });
+};
+
+
+
 export default function TgClient () {
   const [userData, setUserData] = useState<UserData>({ isDataValid: true });
   const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен');
 
   useEffect( () => {
-    if (typeof window === undefined) {
-      setTgStatus('объект window недоступен')
-    }
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      setTgStatus('Подключен ТГ')
-      const initDataUnsafe = tg.initDataUnsafe || {};
-      const user = initDataUnsafe.user;
-      if (user) {
-        setTgStatus('есть юзер')
-        const data = {
-          id: user.id,
-          firstName: user.first_name,
-          lastName: user.last_name,
-          username: user.username,
-          photoUrl: user.photo_url,
-          isDataValid: false, // Изначально считаем, что данные невалидны
-        };
-        setUserData({
-          id: user.id,
-          firstName: user.first_name,
-          lastName: user.last_name,
-          username: user.username,
-          photoUrl: user.photo_url,
-          isDataValid: false, // Изначально считаем, что данные невалидны
-        });
-        const checkSignature = async (initData: string) => {
-          try {
-            const isValid = await validateTgSignature(initData);
-            setUserData({...userData, isDataValid: isValid.isValid })
-          } catch(err) {
-            throw new Error('Ошибка проверки подписи')
+    const fetchData = async () => {
+      try {
+        await waitForTelegram()
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+          setTgStatus('Подключен ТГ')
+          const initDataUnsafe = tg.initDataUnsafe || {};
+          const user = initDataUnsafe.user;
+          if (user) {
+            setTgStatus('есть юзер')
+            const data = {
+              id: user.id,
+              firstName: user.first_name,
+              lastName: user.last_name,
+              username: user.username,
+              photoUrl: user.photo_url,
+              isDataValid: false, // Изначально считаем, что данные невалидны
+            };
+            setUserData({
+              id: user.id,
+              firstName: user.first_name,
+              lastName: user.last_name,
+              username: user.username,
+              photoUrl: user.photo_url,
+              isDataValid: false, // Изначально считаем, что данные невалидны
+            });
+            const checkSignature = async (initData: string) => {
+              try {
+                const isValid = await validateTgSignature(initData);
+                setUserData({...userData, isDataValid: isValid.isValid })
+              } catch(err) {
+                throw new Error('Ошибка проверки подписи')
+              }
+            }
+            checkSignature(tg.initData)
+            if (userData.isDataValid) {
+              setUserData({
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                username: user.username,
+                photoUrl: user.photo_url,
+                isDataValid: true,
+              });
+            } else {
+              console.error('Telegram data is not valid!');
+              // Обработка случая, когда данные не прошли проверку
+              setUserData(prevState => ({...prevState, isDataValid: false}))
+            }
+          } else {
+            console.log('User data not available.');
           }
         }
-        checkSignature(tg.initData)
-        if (userData.isDataValid) {
-          setUserData({
-            id: user.id,
-            firstName: user.first_name,
-            lastName: user.last_name,
-            username: user.username,
-            photoUrl: user.photo_url,
-            isDataValid: true,
-          });
-        } else {
-          console.error('Telegram data is not valid!');
-          // Обработка случая, когда данные не прошли проверку
-          setUserData(prevState => ({...prevState, isDataValid: false}))
-        }
-      } else {
-        console.log('User data not available.');
+      }
+      catch (error) {
+        console.error('Ошибка при инициализации Telegram Web App:', error)
       }
     }
+    fetchData();
+
+
+
+    // const tg = window.Telegram?.WebApp;
+    // if (tg) {
+    //   setTgStatus('Подключен ТГ')
+    //   const initDataUnsafe = tg.initDataUnsafe || {};
+    //   const user = initDataUnsafe.user;
+    //   if (user) {
+    //     setTgStatus('есть юзер')
+    //     const data = {
+    //       id: user.id,
+    //       firstName: user.first_name,
+    //       lastName: user.last_name,
+    //       username: user.username,
+    //       photoUrl: user.photo_url,
+    //       isDataValid: false, // Изначально считаем, что данные невалидны
+    //     };
+    //     setUserData({
+    //       id: user.id,
+    //       firstName: user.first_name,
+    //       lastName: user.last_name,
+    //       username: user.username,
+    //       photoUrl: user.photo_url,
+    //       isDataValid: false, // Изначально считаем, что данные невалидны
+    //     });
+    //     const checkSignature = async (initData: string) => {
+    //       try {
+    //         const isValid = await validateTgSignature(initData);
+    //         setUserData({...userData, isDataValid: isValid.isValid })
+    //       } catch(err) {
+    //         throw new Error('Ошибка проверки подписи')
+    //       }
+    //     }
+    //     checkSignature(tg.initData)
+    //     if (userData.isDataValid) {
+    //       setUserData({
+    //         id: user.id,
+    //         firstName: user.first_name,
+    //         lastName: user.last_name,
+    //         username: user.username,
+    //         photoUrl: user.photo_url,
+    //         isDataValid: true,
+    //       });
+    //     } else {
+    //       console.error('Telegram data is not valid!');
+    //       // Обработка случая, когда данные не прошли проверку
+    //       setUserData(prevState => ({...prevState, isDataValid: false}))
+    //     }
+    //   } else {
+    //     console.log('User data not available.');
+    //   }
+    // }
+
+
+
   }, [tgStatus, userData]);
 
 
