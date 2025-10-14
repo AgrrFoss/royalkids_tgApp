@@ -191,7 +191,7 @@ export default function Form () {
     reset()
   }
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <TgScript/>
       <h3>{tgStatus}</h3>
       <div className={styles.wrapper}>
