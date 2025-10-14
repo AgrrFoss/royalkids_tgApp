@@ -37,6 +37,7 @@ const TgScript = dynamic(
   () => import('@front/widgets/tgClient/tgScript'), // Создаем отдельный компонент для скрипта
   { ssr: false } // Отключаем SSR для этого компонента
 )
+// import TgScript from '@front/widgets/tgClient/tgScript'
 import { validateTgSignature } from '@front/widgets/tgClient/verify-telegram-data'
 interface TelegramWebAppUser {
   id: number;
