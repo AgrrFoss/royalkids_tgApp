@@ -9,6 +9,8 @@ import Image from 'next/image'
 import { Media } from '@/payload-types'
 import TgClient from '@front/widgets/tgClient'
 import Link from 'next/link'
+import { Suspense } from 'react'
+import Form from '@front/widgets/Form'
 
 
 // export async function  generateStaticParams() {
@@ -50,23 +52,10 @@ export default async function Page ({params: paramsPromise}: IPageProps) {
         {page && (
           <main className={styles.main}>
             <TgClient/>
-            <div className={styles.imgContainer}>
-              <div className={styles.card}>
-                {
-                  image2?.url && (
-                    <Image
-                      src={image2?.url}
-                      alt={image2?.alt}
-                      fill={true}
-                      className={styles.image}
-                      sizes="(max-width: 768) 100vw, 50vw"
-                    />
-                  )
-                }
-                <span className={styles.span}>Текст карточки 2</span>
-                <Link href={'/trial'}>Записаться на пробное</Link>
-              </div>
-            </div>
+
+            <Suspense fallback="loading">
+              <Form></Form>
+            </Suspense>
           </main>
           )}
       </>
