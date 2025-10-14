@@ -1,5 +1,6 @@
 import React from 'react'
 import './global.scss'
+import TgScript from '@front/widgets/tgClient/tgScript'
 
 
 export const metadata = {
@@ -15,6 +16,8 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       <head>
       </head>
         <body>
+        <TgScript/>
+
         {children}
         </body>
     </html>
