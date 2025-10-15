@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { validateTgSignature } from '@front/widgets/tgClient/verify-telegram-data'
 import dynamic from 'next/dynamic'
 import serverLog from '@/utilities/serverLog'
@@ -15,7 +15,6 @@ interface TelegramWebAppUser {
   last_name?: string
   username?: string
   photo_url?: string
-  // Добавьте другие поля, если они вам нужны
 }
 interface TelegramWebApp {
   initDataUnsafe: {
@@ -46,12 +45,13 @@ const waitForTelegram = (): Promise<void> => {
       if (window.Telegram && window.Telegram.WebApp) {
         resolve()
       } else {
-        setTimeout(checkTelegram, 200) // Проверяем каждые 50 миллисекунд
+        setTimeout(checkTelegram, 500) // Проверяем каждые 500 миллисекунд
       }
     }
     checkTelegram()
   })
 }
+
 
 export default function TgClient() {
   const [userData, setUserData] = useState<UserData>({ isDataValid: true })
@@ -65,29 +65,21 @@ export default function TgClient() {
     }
   }, [])
 
+  const telegramInitialized = useRef(false);
   useEffect(() => {
     const fetchData = async () => {
-
-      await serverLog('запущен эффект работы с ТГ')
-
+      if (telegramInitialized.current) { // Проверка, была ли функция уже вызвана
+        console.log("Telegram already initialized, skipping.");
+        return;
+      }
       try {
         await waitForTelegram()
-
-
-        await serverLog('функция waitForTelegram сработала')
-
         const tg = window.Telegram?.WebApp
         if (tg) {
-
-          await serverLog('ТГ найден')
-
           setTgStatus('Подключен ТГ')
           const initDataUnsafe = tg.initDataUnsafe || {}
           const user = initDataUnsafe.user
           if (user) {
-
-            await serverLog('найден юзер')
-
             setTgStatus('есть юзер')
             const processUserData = async () => {
               const isValid = await checkSignature(tg.initData)
@@ -109,27 +101,25 @@ export default function TgClient() {
             processUserData()
           } else {
             console.log('User data not available.')
+            await serverLog('User data not available.')
           }
         } else {
-
           await serverLog('ТГ не найден')
-
         }
       } catch (error) {
-
-        await serverLog('Выброс в Catch')
         console.error('Ошибка при инициализации Telegram Web App:', error)
+      } finally {
+        telegramInitialized.current = true;
       }
     }
     fetchData()
 
     setTgStatus('Эффект работы с ТГ отработал')
 
-  }, [checkSignature, tgStatus, userData])
+  }, [tgStatus, userData])
 
   return (
     <div>
-      <TgScript />
       <h1>Информация от ТГ АПП</h1>
       <>{tgStatus}</>
       <>
