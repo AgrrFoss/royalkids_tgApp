@@ -28,135 +28,7 @@ const settingPhoneInput = {
   }
 }
 
-
-
-
-
-import dynamic from 'next/dynamic';
-const TgScript = dynamic(
-  () => import('@front/widgets/tgClient/tgScript'), // Создаем отдельный компонент для скрипта
-  { ssr: false } // Отключаем SSR для этого компонента
-)
-// import TgScript from '@front/widgets/tgClient/tgScript'
-import { validateTgSignature } from '@front/widgets/tgClient/verify-telegram-data'
-interface TelegramWebAppUser {
-  id: number;
-  first_name: string;
-  last_name?: string;
-  username?: string;
-  photo_url?: string;
-  // Добавьте другие поля, если они вам нужны
-}
-interface TelegramWebApp {
-  initDataUnsafe: {
-    user?: TelegramWebAppUser;
-  };
-  initData: string; // Строка с закодированными данными и подписью
-  // Другие методы Telegram Web App API
-}
-declare global {
-  interface Window {
-    Telegram: {
-      WebApp: TelegramWebApp;
-    };
-  }
-}
-interface UserData {
-  id?: number;
-  firstName?: string;
-  lastName?: string;
-  username?: string;
-  photoUrl?: string;
-  isDataValid: boolean;
-  // Другие поля
-}
-
-
-
-
-
-
-
-
-
-
-
 export default function Form () {
-
-
-  const [username, setUsername] = useState('')
-  const [userData, setUserData] = useState<UserData>({ isDataValid: true });
-  const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен');
-
-  useEffect( () => {
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      setTgStatus('Подключен ТГ')
-      const initDataUnsafe = tg.initDataUnsafe || {};
-      const user = initDataUnsafe.user;
-      if (user) {
-        setTgStatus('есть юзер')
-        const data = {
-          id: user.id,
-          firstName: user.first_name,
-          lastName: user.last_name,
-          username: user.username,
-          photoUrl: user.photo_url,
-          isDataValid: false, // Изначально считаем, что данные невалидны
-        };
-        setUserData({
-          id: user.id,
-          firstName: user.first_name,
-          lastName: user.last_name,
-          username: user.username,
-          photoUrl: user.photo_url,
-          isDataValid: false, // Изначально считаем, что данные невалидны
-        });
-        setUsername(user.username || '')
-        const checkSignature = async (initData: string) => {
-          try {
-            const isValid = await validateTgSignature(initData);
-            setUserData({...userData, isDataValid: isValid.isValid })
-          } catch(err) {
-            throw new Error('Ошибка проверки подписи')
-          }
-        }
-        checkSignature(tg.initData)
-        if (userData.isDataValid) {
-          setUserData({
-            id: user.id,
-            firstName: user.first_name,
-            lastName: user.last_name,
-            username: user.username,
-            photoUrl: user.photo_url,
-            isDataValid: true,
-          });
-          setUsername(user.username || '')
-        } else {
-          console.error('Telegram data is not valid!');
-          // Обработка случая, когда данные не прошли проверку
-          setUserData(prevState => ({...prevState, isDataValid: false}))
-        }
-      } else {
-        console.log('User data not available.');
-      }
-    }
-  }, [tgStatus, userData]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   const searchParams = useSearchParams()
   const [utmParams, setUtmParams] = useState<IUtmParams>(
@@ -188,24 +60,22 @@ export default function Form () {
   })
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
 
-    await sendMessage(data, utmParams, 'trial', username)
+    await sendMessage(data, utmParams, 'trial')
     reset()
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <TgScript/>
-      <h3>{tgStatus}</h3>
       <div className={styles.wrapper}>
         <input
           {...register('name')}
           type={'text'}
-          className={cn(styles.input, )}
+          className={cn(styles.input)}
           placeholder={'Ваше имя'}
         />
         <input
           {...register('age')}
           type={'text'}
-          className={cn(styles.input, )}
+          className={cn(styles.input)}
           placeholder={'Возраст ребенка'}
         />
         <input
@@ -214,17 +84,17 @@ export default function Form () {
           className={cn(styles.input, errors.phone && styles.input_error)}
           placeholder={'Ваш телефон *'}
         />
-        <button type={'submit'} className={cn(styles.button,)}>
+        <button type={'submit'} className={cn(styles.button)}>
           Оставить заявку
         </button>
       </div>
       <p className={styles.note}>
         Нажимая кнопку “Отправить заявку”, вы соглашаетесь на{' '}
-        <Link className={cn(styles.link,)} href={''}>
+        <Link className={cn(styles.link)} href={''}>
           обработку персональных данных
         </Link>{' '}
         в соответствии с{' '}
-        <Link className={cn(styles.link,)} href={''}>
+        <Link className={cn(styles.link)} href={''}>
           политикой конфиденциальности
         </Link>
       </p>

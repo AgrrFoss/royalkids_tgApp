@@ -40,12 +40,9 @@ interface IPageProps {
 }
 export default async function Page ({params: paramsPromise}: IPageProps) {
   const {slug = 'home'} = await paramsPromise
-  const options = await getCachedGlobal('options', 1)() as DataFromGlobalSlug<'options'>
   const page = await getCachedDocument('pages', slug, 4)() as DataFromCollectionSlug<'pages'>
-  const cities = await getCachedDocuments('pages', 2)() as DataFromCollectionSlug<'pages'>[]
   if(!page){notFound()}
 
-  const image2 = page.image2 as Media
   return (
     page && (
       <>
