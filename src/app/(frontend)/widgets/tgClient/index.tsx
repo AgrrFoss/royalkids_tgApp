@@ -21,8 +21,7 @@ interface TelegramWebApp {
   initDataUnsafe: {
     user?: TelegramWebAppUser
   }
-  initData: string // Строка с закодированными данными и подписью
-  // Другие методы Telegram Web App API
+  initData: string
 }
 declare global {
   interface Window {
@@ -38,18 +37,15 @@ interface UserData {
   username?: string
   photoUrl?: string
   isDataValid: boolean
-  // Другие поля
 }
 
 const waitForTelegram = (): Promise<void> => {
   return new Promise<void>((resolve) => {
 
     const checkTelegram = () => {
-      let count = 0
-      if ((window.Telegram && window.Telegram.WebApp) || count > 10) {
+      if (window.Telegram && window.Telegram.WebApp) {
         resolve()
       } else {
-        count ++
         setTimeout(checkTelegram, 200) // Проверяем каждые 50 миллисекунд
       }
     }
