@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { validateTgSignature } from '@front/widgets/tgClient/verify-telegram-data'
 import dynamic from 'next/dynamic'
+import serverLog from '@/utilities/serverLog'
 
 const TgScript = dynamic(
   () => import('@front/widgets/tgClient/tgScript'), // Создаем отдельный компонент для скрипта
@@ -67,14 +68,23 @@ export default function TgClient() {
 
   useEffect(() => {
     const fetchData = async () => {
+
+      await serverLog('запущен эффект работы с ТГ')
+
       try {
         await waitForTelegram()
         const tg = window.Telegram?.WebApp
         if (tg) {
+
+          await serverLog('ТГ найден')
+
           setTgStatus('Подключен ТГ')
           const initDataUnsafe = tg.initDataUnsafe || {}
           const user = initDataUnsafe.user
           if (user) {
+
+            await serverLog('найден юзер')
+
             setTgStatus('есть юзер')
             const processUserData = async () => {
               const isValid = await checkSignature(tg.initData)
