@@ -15,9 +15,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
-      <Head>
+      <head>
         <TgScript/>
-      </Head>
+      </head>
         <body>
         {children}
         </body>
