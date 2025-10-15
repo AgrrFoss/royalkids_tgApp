@@ -1,6 +1,8 @@
 import React from 'react'
 import './global.scss'
 import TgScript from '@front/widgets/tgClient/tgScript'
+import Script from 'next/script'
+import Head from 'next/head'
 
 
 export const metadata = {
@@ -13,8 +15,10 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
-      <head>
-      </head>
+    {/* eslint-disable-next-line @next/next/no-script-component-in-head */}
+      <Head>
+        <Script src="https://telegram.org/js/telegram-web-app.js" strategy="afterInteractive" />
+      </Head>
         <body>
         {children}
         </body>

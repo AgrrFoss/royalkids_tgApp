@@ -43,11 +43,14 @@ interface UserData {
 
 const waitForTelegram = (): Promise<void> => {
   return new Promise<void>((resolve) => {
+
     const checkTelegram = () => {
-      if (window.Telegram && window.Telegram.WebApp) {
+      let count = 0
+      if ((window.Telegram && window.Telegram.WebApp) || count > 10) {
         resolve()
       } else {
-        setTimeout(checkTelegram, 50) // Проверяем каждые 50 миллисекунд
+        count ++
+        setTimeout(checkTelegram, 200) // Проверяем каждые 50 миллисекунд
       }
     }
     checkTelegram()
