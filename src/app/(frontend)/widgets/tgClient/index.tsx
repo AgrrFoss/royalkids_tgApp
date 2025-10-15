@@ -123,7 +123,10 @@ export default function TgClient() {
       }
     }
     fetchData()
-  }, [tgStatus, userData])
+
+    setTgStatus('Эффект работы с ТГ отработал')
+
+  }, [checkSignature, tgStatus, userData])
 
   return (
     <div>
