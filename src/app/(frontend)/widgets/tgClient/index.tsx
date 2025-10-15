@@ -73,6 +73,10 @@ export default function TgClient() {
 
       try {
         await waitForTelegram()
+
+
+        await serverLog('функция waitForTelegram сработала')
+
         const tg = window.Telegram?.WebApp
         if (tg) {
 
@@ -107,8 +111,14 @@ export default function TgClient() {
           } else {
             console.log('User data not available.')
           }
+        } else {
+
+          await serverLog('ТГ не найден')
+
         }
       } catch (error) {
+
+        await serverLog('Выброс в Catch')
         console.error('Ошибка при инициализации Telegram Web App:', error)
       }
     }
