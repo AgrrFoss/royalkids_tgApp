@@ -17,7 +17,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en">
     {/* eslint-disable-next-line @next/next/no-script-component-in-head */}
       <Head>
-        <Script src="https://telegram.org/js/telegram-web-app.js" strategy="afterInteractive" />
+        <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
       </Head>
         <body>
         {children}
