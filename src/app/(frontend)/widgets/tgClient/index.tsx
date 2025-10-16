@@ -15,6 +15,7 @@ interface TelegramWebAppUser {
 interface TelegramWebApp {
   initDataUnsafe: {
     user?: TelegramWebAppUser
+    start_param: string
   }
   initData: string
 }
@@ -32,6 +33,7 @@ export interface UserData {
   username?: string
   photoUrl?: string
   isDataValid: boolean
+  startParam?: string
 }
 
 const waitForTelegram = (): Promise<void> => {
@@ -89,6 +91,7 @@ export default function TgClient( ) {
                   username: user.username,
                   photoUrl: user.photo_url,
                   isDataValid: true,
+                  startParam: initDataUnsafe.start_param
                 })
                 setUser({
                   id: user.id,
@@ -97,6 +100,7 @@ export default function TgClient( ) {
                   username: user.username,
                   photoUrl: user.photo_url,
                   isDataValid: true,
+                  startParam: initDataUnsafe.start_param
                 })
 
                 await serverLog('User установлен в контекст.')
@@ -137,6 +141,7 @@ export default function TgClient( ) {
         {userData.username && <p>Username: {userData.username}</p>}
         {userData.photoUrl && <img src={userData.photoUrl} alt="User Photo" />}
         {userData.isDataValid && <p>Данные валидны</p>}
+        {userData.startParam && <p>{userData.startParam}</p>}
       </>
     </div>
   )
