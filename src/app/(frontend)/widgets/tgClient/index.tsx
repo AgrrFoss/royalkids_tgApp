@@ -3,11 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { validateTgSignature } from '@front/widgets/tgClient/verify-telegram-data'
 import dynamic from 'next/dynamic'
 import serverLog from '@/utilities/serverLog'
-
-const TgScript = dynamic(
-  () => import('@front/widgets/tgClient/tgScript'), // Создаем отдельный компонент для скрипта
-  { ssr: false }, // Отключаем SSR для этого компонента
-)
+import { useUser } from '@front/widgets/UserContext'
 
 interface TelegramWebAppUser {
   id: number
@@ -29,7 +25,7 @@ declare global {
     }
   }
 }
-interface UserData {
+export interface UserData {
   id?: number
   firstName?: string
   lastName?: string
@@ -53,7 +49,7 @@ const waitForTelegram = (): Promise<void> => {
 }
 
 
-export default function TgClient() {
+export default function TgClient( ) {
   const [userData, setUserData] = useState<UserData>({ isDataValid: true })
   const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен')
 
@@ -64,6 +60,8 @@ export default function TgClient() {
       throw new Error('Ошибка проверки подписи')
     }
   }, [])
+
+  const { setUser } = useUser()
 
   const telegramInitialized = useRef(false);
   useEffect(() => {
@@ -85,6 +83,14 @@ export default function TgClient() {
               const isValid = await checkSignature(tg.initData)
               if (isValid) {
                 setUserData({
+                  id: user.id,
+                  firstName: user.first_name,
+                  lastName: user.last_name,
+                  username: user.username,
+                  photoUrl: user.photo_url,
+                  isDataValid: true,
+                })
+                setUser({
                   id: user.id,
                   firstName: user.first_name,
                   lastName: user.last_name,

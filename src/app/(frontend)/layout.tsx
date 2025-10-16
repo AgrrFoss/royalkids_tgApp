@@ -3,6 +3,8 @@ import './global.scss'
 import TgScript from '@front/widgets/tgClient/tgScript'
 import Script from 'next/script'
 import Head from 'next/head'
+import { UserContextProvider } from '@front/widgets/UserContext'
+import TgClient from '@front/widgets/tgClient'
 
 
 export const metadata = {
@@ -18,9 +20,12 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       <head>
         {typeof window !== undefined && <TgScript/>}
       </head>
+      <UserContextProvider>
         <body>
-        {children}
+          <TgClient/>
+          {children}
         </body>
+      </UserContextProvider>
     </html>
   )
 }
