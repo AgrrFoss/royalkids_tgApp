@@ -48,8 +48,6 @@ export default async function Page ({params: paramsPromise}: IPageProps) {
       <>
         {page && (
           <main className={styles.main}>
-            <TgClient/>
-
             <Suspense fallback="loading">
               <Form></Form>
             </Suspense>

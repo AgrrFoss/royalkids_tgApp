@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { sendMessage } from '@/utilities/sendMessage'
+import { useUser } from '@front/widgets/UserContext/'
 
 export interface IFormInput {
   name: string,
@@ -29,7 +30,7 @@ const settingPhoneInput = {
 }
 
 export default function Form () {
-
+  const { user } = useUser()
   const searchParams = useSearchParams()
   const [utmParams, setUtmParams] = useState<IUtmParams>(
     {
