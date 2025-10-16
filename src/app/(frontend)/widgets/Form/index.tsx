@@ -61,11 +61,12 @@ export default function Form () {
   })
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
 
-    await sendMessage(data, utmParams, 'trial')
+    await sendMessage(data, utmParams, 'trial', user?.username)
     reset()
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <h3>Hello, {user?.username }</h3>
       <div className={styles.wrapper}>
         <input
           {...register('name')}

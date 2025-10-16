@@ -98,6 +98,8 @@ export default function TgClient( ) {
                   photoUrl: user.photo_url,
                   isDataValid: true,
                 })
+
+                await serverLog('User установлен в контекст.')
               } else {
                 console.error('Telegram data is not valid!')
                 setTgStatus('Тг данные на валидны')
