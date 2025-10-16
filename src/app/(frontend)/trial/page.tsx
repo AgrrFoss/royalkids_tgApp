@@ -8,7 +8,7 @@ interface IPageProps {
 export default function TrialFormPage ({params: paramsPromise}: IPageProps) {
   return (
     <>
-      <h1> Заголовок страницы с формой </h1>
+      <h1>Запись на пробное занятие</h1>
       <Suspense fallback="loading">
         <Form></Form>
       </Suspense>

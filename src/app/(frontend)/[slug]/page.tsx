@@ -48,9 +48,7 @@ export default async function Page ({params: paramsPromise}: IPageProps) {
       <>
         {page && (
           <main className={styles.main}>
-            <Suspense fallback="loading">
-              <Form></Form>
-            </Suspense>
+            <Link href={`/trial`}>Записаться на пробное занятие</Link>
           </main>
           )}
       </>
