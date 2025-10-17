@@ -4,6 +4,7 @@ import { validateTgSignature } from '@front/widgets/tgClient/verify-telegram-dat
 import dynamic from 'next/dynamic'
 import serverLog from '@/utilities/serverLog'
 import { useUser } from '@front/widgets/UserContext'
+import { useSearchParams } from 'next/navigation'
 
 interface TelegramWebAppUser {
   id: number
@@ -36,6 +37,24 @@ export interface UserData {
   startParam?: string
 }
 
+
+
+export interface IFormInput {
+  name: string,
+  age: number,
+  phone: string,
+}
+export interface IUtmParams {
+  utm_source: string;
+  utm_medium: string;
+  utm_campaign: string;
+  utm_term: string;
+  utm_content: string;
+}
+
+
+
+
 const waitForTelegram = (): Promise<void> => {
   return new Promise<void>((resolve) => {
 
@@ -52,6 +71,51 @@ const waitForTelegram = (): Promise<void> => {
 
 
 export default function TgClient( ) {
+
+
+
+
+  const searchParams = useSearchParams()
+  const [utmParams, setUtmParams] = useState<IUtmParams>(
+    {
+      utm_source: '',
+      utm_medium: '',
+      utm_campaign: '',
+      utm_term: '',
+      utm_content: '',
+    }
+  )
+  useEffect(() => {
+    const utm_source = searchParams.get('utm_source') || '';
+    const utm_medium = searchParams.get('utm_medium') || '';
+    const utm_campaign = searchParams.get('utm_campaign') || '';
+    const utm_term = searchParams.get('utm_term') || '';
+    const utm_content = searchParams.get('utm_content') || '';
+
+    setUtmParams({
+      utm_source,
+      utm_medium,
+      utm_campaign,
+      utm_term,
+      utm_content,
+    });
+  }, [searchParams]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const [userData, setUserData] = useState<UserData>({ isDataValid: true })
   const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен')
 
@@ -134,6 +198,11 @@ export default function TgClient( ) {
     <div>
       <h1>Информация от ТГ АПП</h1>
       <>{tgStatus}</>
+      <>{utmParams.utm_campaign}</>
+      <>{utmParams.utm_content}</>
+      <>{utmParams.utm_medium}</>
+      <>{utmParams.utm_term}</>
+      <>{utmParams.utm_source}</>
       <>
         <p>User ID: {userData.id}</p>
         <p>First Name: {userData.firstName}</p>
