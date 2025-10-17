@@ -56,6 +56,9 @@ export default function Form () {
       utm_content,
     });
   }, [searchParams]);
+
+
+
   const { register, handleSubmit, formState: {errors}, reset} = useForm<IFormInput>({
     mode: 'onChange',
   })
