@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import './global.scss'
 import TgScript from '@front/widgets/tgClient/tgScript'
 import Script from 'next/script'
@@ -22,7 +22,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       </head>
       <UserContextProvider>
         <body>
+        <Suspense fallback={null}>
           <TgClient/>
+        </Suspense>
           {children}
         </body>
       </UserContextProvider>
