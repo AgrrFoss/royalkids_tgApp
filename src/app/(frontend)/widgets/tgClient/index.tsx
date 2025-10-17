@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { validateTgSignature } from '@front/widgets/tgClient/verify-telegram-data'
 import serverLog from '@/utilities/serverLog'
 import { useUser } from '@front/widgets/UserContext'
+import { useRouter } from 'next/navigation'
 
 interface TelegramWebAppUser {
   id: number
@@ -77,6 +78,7 @@ const [userData, setUserData] = useState<UserData>({ isDataValid: true })
   }, [])
 
   const { setUser } = useUser()
+  const router = useRouter()
 
   const telegramInitialized = useRef(false);
   useEffect(() => {
@@ -117,6 +119,9 @@ const [userData, setUserData] = useState<UserData>({ isDataValid: true })
                 })
                 if (initDataUnsafe.start_param) {
                   const params = parseStartParams(initDataUnsafe.start_param)
+                  if (params.pg) {
+                    router.push(params.pg)
+                  }
                   setStartParams(params)
                 }
                 await serverLog('User установлен в контекст.')
@@ -153,8 +158,6 @@ const [userData, setUserData] = useState<UserData>({ isDataValid: true })
       <div>{startParams.pg}</div>
       <div>{startParams.usr}</div>
       <div>{startParams.umd}</div>
-      <div>{tgStatus}</div>
-      <div>{tgStatus}</div>
       <>
         <p>User ID: {userData.id}</p>
         <p>First Name: {userData.firstName}</p>
