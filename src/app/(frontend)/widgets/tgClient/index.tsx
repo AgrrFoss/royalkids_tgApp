@@ -1,10 +1,8 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { validateTgSignature } from '@front/widgets/tgClient/verify-telegram-data'
-import dynamic from 'next/dynamic'
 import serverLog from '@/utilities/serverLog'
 import { useUser } from '@front/widgets/UserContext'
-import { useSearchParams } from 'next/navigation'
 
 interface TelegramWebAppUser {
   id: number
@@ -37,24 +35,6 @@ export interface UserData {
   startParam?: string
 }
 
-
-
-export interface IFormInput {
-  name: string,
-  age: number,
-  phone: string,
-}
-export interface IUtmParams {
-  utm_source: string;
-  utm_medium: string;
-  utm_campaign: string;
-  utm_term: string;
-  utm_content: string;
-}
-
-
-
-
 const waitForTelegram = (): Promise<void> => {
   return new Promise<void>((resolve) => {
 
@@ -69,55 +49,24 @@ const waitForTelegram = (): Promise<void> => {
   })
 }
 
+const parseStartParams = (startParams: string) => {
+  const params: Record<string, string> = {}
+  const paramPairs = startParams.split('_')
+  for (const pair of paramPairs) {
+    const [key, value] = pair.split('=')
+    if (key && value) {
+      params[key] = value
+    }
+  }
+  console.log(params)
+  return params
+}
+
 
 export default function TgClient( ) {
-
-
-
-
-  const searchParams = useSearchParams()
-  const [utmParams, setUtmParams] = useState<IUtmParams>(
-    {
-      utm_source: '',
-      utm_medium: '',
-      utm_campaign: '',
-      utm_term: '',
-      utm_content: '',
-    }
-  )
-  useEffect(() => {
-    const utm_source = searchParams.get('utm_source') || '';
-    const utm_medium = searchParams.get('utm_medium') || '';
-    const utm_campaign = searchParams.get('utm_campaign') || '';
-    const utm_term = searchParams.get('utm_term') || '';
-    const utm_content = searchParams.get('utm_content') || '';
-
-    setUtmParams({
-      utm_source,
-      utm_medium,
-      utm_campaign,
-      utm_term,
-      utm_content,
-    });
-  }, [searchParams]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  const [userData, setUserData] = useState<UserData>({ isDataValid: true })
+const [userData, setUserData] = useState<UserData>({ isDataValid: true })
   const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен')
+  const [startParams, setStartParams] = useState<any>({})
 
   const checkSignature = useCallback(async (initData: string) => {
     try {
@@ -166,7 +115,10 @@ export default function TgClient( ) {
                   isDataValid: true,
                   startParam: initDataUnsafe.start_param
                 })
-
+                if (initDataUnsafe.start_param) {
+                  const params = parseStartParams(initDataUnsafe.start_param)
+                  setStartParams(params)
+                }
                 await serverLog('User установлен в контекст.')
               } else {
                 console.error('Telegram data is not valid!')
@@ -197,12 +149,12 @@ export default function TgClient( ) {
   return (
     <div>
       <h1>Информация от ТГ АПП</h1>
-      <>{tgStatus}</>
-      <>{utmParams.utm_campaign}</>
-      <>{utmParams.utm_content}</>
-      <>{utmParams.utm_medium}</>
-      <>{utmParams.utm_term}</>
-      <>{utmParams.utm_source}</>
+      <div>{tgStatus}</div>
+      <div>{startParams.pg}</div>
+      <div>{startParams.usr}</div>
+      <div>{startParams.umd}</div>
+      <div>{tgStatus}</div>
+      <div>{tgStatus}</div>
       <>
         <p>User ID: {userData.id}</p>
         <p>First Name: {userData.firstName}</p>

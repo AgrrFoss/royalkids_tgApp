@@ -22,9 +22,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       </head>
       <UserContextProvider>
         <body>
-        <Suspense fallback={null}>
           <TgClient/>
-        </Suspense>
           {children}
         </body>
       </UserContextProvider>
