@@ -32,6 +32,7 @@ export interface TelegramWebApp {
     start_param: string
   }
   initData: string
+  colorScheme: 'light' | 'dark'
 }
 
 export interface ITgClientProps {

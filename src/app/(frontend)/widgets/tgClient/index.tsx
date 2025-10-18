@@ -5,6 +5,7 @@ import serverLog from '@/utilities/serverLog'
 import { useUser } from '@front/widgets/UserContext'
 import { useRouter } from 'next/navigation'
 import { IPageStartParams, ITgClientProps, TelegramWebApp, UserData } from '@front/widgets/tgClient/types'
+import { WebApp } from '@twa-dev/types'
 
 declare global {
   interface Window {
@@ -13,7 +14,6 @@ declare global {
     }
   }
 }
-
 
 const waitForTelegram = (): Promise<void> => {
   return new Promise<void>((resolve) => {
@@ -28,7 +28,6 @@ const waitForTelegram = (): Promise<void> => {
     checkTelegram()
   })
 }
-
 const parseStartParams = (startParams: string): IPageStartParams => {
   const params: Record<string, string> = {}
   const paramPairs = startParams.split('_')
@@ -61,10 +60,13 @@ const buildUrl = (params: IPageStartParams): string => {
   return urlString
 }
 
-
 export default function TgClient( { children }: ITgClientProps ) {
   const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен')
   const [startParams, setStartParams] = useState<any>({})
+  const [isDarkMode, setDarkMode] = useState<boolean>(false)
+  const { user,  setUser } = useUser()
+  const router = useRouter()
+  const telegramInitialized = useRef(false);
 
   const checkSignature = useCallback(async (initData: string) => {
     try {
@@ -74,10 +76,6 @@ export default function TgClient( { children }: ITgClientProps ) {
     }
   }, [])
 
-  const { user,  setUser } = useUser()
-  const router = useRouter()
-
-  const telegramInitialized = useRef(false);
   useEffect(() => {
     const fetchData = async () => {
       if (telegramInitialized.current) { // Проверка, была ли функция уже вызвана
@@ -86,8 +84,12 @@ export default function TgClient( { children }: ITgClientProps ) {
       }
       try {
         await waitForTelegram()
-        const tg = window.Telegram?.WebApp
+        const tg = window.Telegram?.WebApp as WebApp
         if (tg) {
+          setDarkMode(tg.colorScheme === 'dark');
+          tg.onEvent('themeChanged', () => {
+            setDarkMode(window.Telegram.WebApp.colorScheme === 'dark');
+          });
           setTgStatus('Подключен ТГ')
           const initDataUnsafe = tg.initDataUnsafe || {}
           const user = initDataUnsafe.user
@@ -135,13 +137,11 @@ export default function TgClient( { children }: ITgClientProps ) {
       }
     }
     fetchData()
-
     setTgStatus('Эффект работы с ТГ отработал')
-
   }, [tgStatus, user])
 
   return (
-    <div>
+    <div  style={{ backgroundColor: isDarkMode ? '#222' : '#fff', color: isDarkMode ? '#fff' : '#000' }}>
       <h1>Информация от ТГ АПП</h1>
       <div>{tgStatus}</div>
       <div>{startParams.pg}</div>

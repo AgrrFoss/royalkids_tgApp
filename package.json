@@ -37,6 +37,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@playwright/test": "^1.55.1",
+    "@twa-dev/types": "^8.0.2",
     "@types/node": "^22.5.4",
     "@types/node-telegram-bot-api": "^0.64.11",
     "@types/react": "19.1.0",
