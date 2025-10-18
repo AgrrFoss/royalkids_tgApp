@@ -14,17 +14,17 @@ export const sendMessage = async (data: IFormInput, utm: IUtmParams, formType: '
           message = `<b>Новая заявка на праздник от:</b> ${username}\n` +
             `<b>Имя:</b> ${data?.name}, <b>возраст:</b> ${data?.age}\n` +
             `<b>Номер телефона:</b> ${data.phone}\n` +
-            utm ?
-            ``
-            : ''
+            (utm ?
+            `<b>utm:</b> ${utm.utm_source}, ${utm.utm_medium}, ${utm.utm_campaign}`
+            : '')
           break
         case 'trial':
           message = `<b>Новая заявка на пробное от:</b> ${username}\n` +
             `<b>Имя:</b> ${data?.name}, <b>возраст:</b> ${data?.age}\n` +
             `<b>Номер телефона:</b> ${data.phone}\n` +
-            utm ?
+            (utm ?
             `<b>utm:</b> ${utm.utm_source}, ${utm.utm_medium}, ${utm.utm_campaign}`
-            : ''
+            : '')
 
       }
       const bot = new TelegramBot(tokenTgBot);
