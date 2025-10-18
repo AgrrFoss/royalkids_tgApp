@@ -36,6 +36,15 @@ export interface UserData {
   startParam?: string
 }
 
+interface IPageStartParams {
+  pg?: string
+  usr?: string
+  umd?: string
+  ucm?: string
+  ucn?: string
+  utr?: string
+}
+
 const waitForTelegram = (): Promise<void> => {
   return new Promise<void>((resolve) => {
 
@@ -50,7 +59,7 @@ const waitForTelegram = (): Promise<void> => {
   })
 }
 
-const parseStartParams = (startParams: string) => {
+const parseStartParams = (startParams: string): IPageStartParams => {
   const params: Record<string, string> = {}
   const paramPairs = startParams.split('_')
   for (const pair of paramPairs) {
@@ -61,6 +70,26 @@ const parseStartParams = (startParams: string) => {
   }
   console.log(params)
   return params
+}
+const buildUrl = (params: IPageStartParams): string => {
+  let urlString = ''
+  if (params.pg) {
+    urlString = `/${params.pg}`
+  }
+  if (params.usr && params.umd && params.ucm) {
+    const utmParams = new URLSearchParams()
+    utmParams.append('utm_source', params.usr)
+    utmParams.append('utm_medium', params.umd)
+    utmParams.append('utm_campaign', params.usr)
+    if (params.ucn) {
+      utmParams.append("utm_content", params.ucn);
+    }
+    if (params.utr) {
+      utmParams.append("utm_term", params.utr);
+    }
+    urlString += utmParams ? `?${utmParams.toString()}` : '';
+  }
+  return urlString
 }
 
 
@@ -119,8 +148,9 @@ const [userData, setUserData] = useState<UserData>({ isDataValid: true })
                 })
                 if (initDataUnsafe.start_param) {
                   const params = parseStartParams(initDataUnsafe.start_param)
-                  if (params.pg) {
-                    router.push(params.pg)
+                  if (params) {
+                    buildUrl(params)
+                    router.push(buildUrl(params))
                   }
                   setStartParams(params)
                 }
