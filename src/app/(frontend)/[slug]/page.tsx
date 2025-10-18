@@ -1,16 +1,11 @@
 import styles from './page.module.scss';
-import { DataFromCollectionSlug, DataFromGlobalSlug, getPayload } from 'payload'
-import configPromise from '@payload-config'
+import { DataFromCollectionSlug } from 'payload'
 import { Metadata, ResolvingMetadata } from 'next'
-import { getCachedDocument, getCachedDocuments } from '@/utilities/getDocument'
-import { getCachedGlobal } from '@/utilities/getGlobals'
+import { getCachedDocument } from '@/utilities/getDocument'
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
-import { Media } from '@/payload-types'
-import TgClient from '@front/widgets/tgClient'
 import Link from 'next/link'
-import { Suspense } from 'react'
-import Form from '@front/widgets/Form'
+import Image from 'next/image'
+import Logo from '@public/logo.jpg'
 
 
 // export async function  generateStaticParams() {
@@ -38,27 +33,38 @@ interface IPageProps {
   params: Promise<{slug: string }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
-export default async function Page ({params: paramsPromise}: IPageProps) {
-  const {slug = 'home'} = await paramsPromise
-  const page = await getCachedDocument('pages', slug, 4)() as DataFromCollectionSlug<'pages'>
-  if(!page){notFound()}
+export default async function Page({ params: paramsPromise }: IPageProps) {
+  const { slug = 'home' } = await paramsPromise
+  const page = (await getCachedDocument('pages', slug, 4)()) as DataFromCollectionSlug<'pages'>
+  if (!page) {
+    notFound()
+  }
 
   return (
     page && (
       <>
         {page && (
           <main className={styles.main}>
-            <Link href={`/trial`}>Записаться на пробное занятие</Link>
+            <h1>Школа танцев Royal kids</h1>
+            <Image src={Logo} alt={'Логотип RoyalKids'} width={200} height={100} />
+            <p>Скоро тут будет вся информация о нас, а пока вы можете</p>
+            <Link href={`/trial`} className={styles.linkButton}>
+              Записаться на пробное занятие
+            </Link>
+            <p>и оценить насколько у нас классно!</p>
           </main>
-          )}
+        )}
       </>
     )
   )
 }
 
-export async function generateMetadata({ params: paramsPromise }: IPageProps, parent: ResolvingMetadata): Promise<Metadata> {
-  const {slug = 'home'} = await paramsPromise
-  const page = await getCachedDocument('pages', slug)() as DataFromCollectionSlug<'pages'>
+export async function generateMetadata(
+  { params: paramsPromise }: IPageProps,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const { slug = 'home' } = await paramsPromise
+  const page = (await getCachedDocument('pages', slug)()) as DataFromCollectionSlug<'pages'>
   return {
     title: page?.meta?.title || (await parent).title,
     description: page?.meta?.description || (await parent).description,

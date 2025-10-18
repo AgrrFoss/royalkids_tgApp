@@ -1,24 +1,24 @@
 @import "@styles/main.scss";
 
-.imgContainer {
+.main {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  @include media(sm) {
-    flex-direction: row;
-  }
+  align-items: center;
+  gap: 10px;
 }
-.image {
-  width: 100%;
-  object-fit: cover;
+.title {
+
 }
-.card {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 600px;
-}
-.span{
-  position: relative;
-  z-index: 2;
-  font-size: 64px;
+
+.linkButton {
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  font-weight: bold;
+  background: $main-gradient;
 }
