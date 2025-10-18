@@ -63,7 +63,6 @@ const buildUrl = (params: IPageStartParams): string => {
 
 
 export default function TgClient( { children }: ITgClientProps ) {
-const [userData, setUserData] = useState<UserData>({ isDataValid: true })
   const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен')
   const [startParams, setStartParams] = useState<any>({})
 
@@ -75,7 +74,7 @@ const [userData, setUserData] = useState<UserData>({ isDataValid: true })
     }
   }, [])
 
-  const { setUser } = useUser()
+  const { user,  setUser } = useUser()
   const router = useRouter()
 
   const telegramInitialized = useRef(false);
@@ -97,15 +96,6 @@ const [userData, setUserData] = useState<UserData>({ isDataValid: true })
             const processUserData = async () => {
               const isValid = await checkSignature(tg.initData)
               if (isValid) {
-                setUserData({
-                  id: user.id,
-                  firstName: user.first_name,
-                  lastName: user.last_name,
-                  username: user.username,
-                  photoUrl: user.photo_url,
-                  isDataValid: true,
-                  startParam: initDataUnsafe.start_param
-                })
                 setUser({
                   id: user.id,
                   firstName: user.first_name,
@@ -127,7 +117,7 @@ const [userData, setUserData] = useState<UserData>({ isDataValid: true })
               } else {
                 console.error('Telegram data is not valid!')
                 setTgStatus('Тг данные на валидны')
-                setUserData(prevState => ({...prevState, isDataValid: false}))
+                setUser(prevState => ({...prevState, isDataValid: false}))
               }
             }
             processUserData()
@@ -148,7 +138,7 @@ const [userData, setUserData] = useState<UserData>({ isDataValid: true })
 
     setTgStatus('Эффект работы с ТГ отработал')
 
-  }, [tgStatus, userData])
+  }, [tgStatus, user])
 
   return (
     <div>
@@ -158,13 +148,13 @@ const [userData, setUserData] = useState<UserData>({ isDataValid: true })
       <div>{startParams.usr}</div>
       <div>{startParams.umd}</div>
       <>
-        <p>User ID: {userData.id}</p>
-        <p>First Name: {userData.firstName}</p>
-        {userData.lastName && <p>Last Name: {userData.lastName}</p>}
-        {userData.username && <p>Username: {userData.username}</p>}
-        {userData.photoUrl && <img src={userData.photoUrl} alt="User Photo" />}
-        {userData.isDataValid && <p>Данные валидны</p>}
-        {userData.startParam && <p>{userData.startParam}</p>}
+        <p>User ID: {user?.id}</p>
+        <p>First Name: {user?.firstName}</p>
+        {user?.lastName && <p>Last Name: {user.lastName}</p>}
+        {user?.username && <p>Username: {user.username}</p>}
+        {user?.photoUrl && <img src={user.photoUrl} alt="User Photo" />}
+        {user?.isDataValid && <p>Данные валидны</p>}
+        {user?.startParam && <p>{user.startParam}</p>}
       </>
       {children}
     </div>

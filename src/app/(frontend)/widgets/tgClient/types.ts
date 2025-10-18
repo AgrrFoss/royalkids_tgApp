@@ -8,6 +8,7 @@ export interface UserData {
   photoUrl?: string
   isDataValid: boolean
   startParam?: string
+  idDarkMode?: boolean
 }
 
 export interface IPageStartParams {
