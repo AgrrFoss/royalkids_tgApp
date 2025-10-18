@@ -390,6 +390,15 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Option {
   id: number;
+  /**
+   * Для подтверждения прав на сайт.
+   */
+  webMaster?: string | null;
+  /**
+   * Предпочтительный метод подключения яндекс метрики
+   */
+  yandexMetrikaId?: string | null;
+  metrikaCode?: string | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -406,6 +415,9 @@ export interface Option {
  * via the `definition` "options_select".
  */
 export interface OptionsSelect<T extends boolean = true> {
+  webMaster?: T;
+  yandexMetrikaId?: T;
+  metrikaCode?: T;
   meta?:
     | T
     | {

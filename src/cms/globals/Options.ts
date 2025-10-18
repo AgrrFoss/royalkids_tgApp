@@ -13,7 +13,25 @@ const Options: GlobalConfig = {
   hooks: {
     afterChange: [GlobalRevalidate],
   },
-  fields: []
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Веб-интеграции',
+          fields: [
+            textField('webMaster', 'Код вебмастера', false, 'Для подтверждения прав на сайт.'),
+            textField('yandexMetrikaId', 'id Счетчика', false, 'Предпочтительный метод подключения яндекс метрики'),
+            {
+              name: 'metrikaCode',
+              label: 'Код яндекс метрики',
+              type: 'code',
+            },
+          ]
+        }
+      ]
+    }
+  ]
 }
 
 export default Options;

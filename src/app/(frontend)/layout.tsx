@@ -5,6 +5,9 @@ import Script from 'next/script'
 import Head from 'next/head'
 import { UserContextProvider } from '@front/widgets/UserContext'
 import TgClient from '@front/widgets/tgClient'
+import YandexMetrika from '@front/features/yandexMetrica/component'
+import { DataFromGlobalSlug } from 'payload'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 
 
 export const metadata = {
@@ -14,6 +17,7 @@ export const metadata = {
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
+  const options = await getCachedGlobal('options', 2)() as DataFromGlobalSlug<'options'>
 
   return (
     <html lang="en">
@@ -24,6 +28,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <body>
           <TgClient/>
           {children}
+          <YandexMetrika counter={Number(options.yandexMetrikaId)}/>
         </body>
       </UserContextProvider>
     </html>
