@@ -6,6 +6,7 @@ import { useUser } from '@front/widgets/UserContext'
 import { useRouter } from 'next/navigation'
 import { IPageStartParams, ITgClientProps, TelegramWebApp, UserData } from '@front/widgets/tgClient/types'
 import { WebApp } from '@twa-dev/types'
+import ym from 'react-yandex-metrika'
 
 declare global {
   interface Window {
@@ -60,7 +61,7 @@ const buildUrl = (params: IPageStartParams): string => {
   return urlString
 }
 
-export default function TgClient( { children }: ITgClientProps ) {
+export default function TgClient( { children, baseUrl }: ITgClientProps ) {
   const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен')
   const [isDarkMode, setDarkMode] = useState<boolean>(false)
   const { user,  setUser } = useUser()
@@ -109,8 +110,10 @@ export default function TgClient( { children }: ITgClientProps ) {
                 if (initDataUnsafe.start_param) {
                   const params = parseStartParams(initDataUnsafe.start_param)
                   if (params) {
-                    buildUrl(params)
-                    router.push(buildUrl(params))
+                    const newUrl = buildUrl(params)
+                    const urlForYM = baseUrl ? `${baseUrl}${newUrl}` : newUrl
+                    ym('hit', urlForYM)
+                    router.push(newUrl)
                   }
                 }
                 await serverLog('User установлен в контекст.')

@@ -37,4 +37,5 @@ export interface TelegramWebApp {
 
 export interface ITgClientProps {
   children?: ReactNode
+  baseUrl?: string
 }
