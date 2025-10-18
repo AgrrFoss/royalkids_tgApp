@@ -80,7 +80,7 @@ const buildUrl = (params: IPageStartParams): string => {
     const utmParams = new URLSearchParams()
     utmParams.append('utm_source', params.usr)
     utmParams.append('utm_medium', params.umd)
-    utmParams.append('utm_campaign', params.usr)
+    utmParams.append('utm_campaign', params.ucm)
     if (params.ucn) {
       utmParams.append("utm_content", params.ucn);
     }
