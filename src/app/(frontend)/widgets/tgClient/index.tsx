@@ -145,8 +145,6 @@ export default function TgClient( { children }: ITgClientProps ) {
       <h1>Информация от ТГ АПП</h1>
       <div>{tgStatus}</div>
       <div>{startParams.pg}</div>
-      <div>{startParams.usr}</div>
-      <div>{startParams.umd}</div>
       <>
         <p>User ID: {user?.id}</p>
         <p>First Name: {user?.firstName}</p>

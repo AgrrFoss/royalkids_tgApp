@@ -6,19 +6,28 @@ import { IFormInput, IUtmParams } from '@front/widgets/Form'
 export const sendMessage = async (data: IFormInput, utm: IUtmParams, formType: 'trial' | 'event', username?: string) => {
   const tokenTgBot = process.env.TELEGRAM_BOT_TOKEN
   const chatId = process.env.TELEGRAM_CHAT_ID
-  const utmString = JSON.stringify(utm)
-  console.log('функция отправки запущена')
   if(tokenTgBot && chatId) {
     try {
-      const bot = new TelegramBot(tokenTgBot);
-      const message = `<b>Новая заявка из бота:</b>\n` +
-        `<b>Пользователь:</b> ${username}\n` +
-        `<b>Имя:</b> ${data?.name}\n` +
-        `<b>Примечания (возраст и др):</b> ${data?.age}\n` +
-        `<b>Номер телефона:</b> ${data.phone}\n` +
-        `<b>Назначение:</b> ${formType}\n` +
-        `<b>Метки:</b> ${utmString}\n`
+       let message
+      switch (formType) {
+        case 'event':
+          message = `<b>Новая заявка на праздник от:</b> ${username}\n` +
+            `<b>Имя:</b> ${data?.name}, <b>возраст:</b> ${data?.age}\n` +
+            `<b>Номер телефона:</b> ${data.phone}\n` +
+            utm ?
+            ``
+            : ''
+          break
+        case 'trial':
+          message = `<b>Новая заявка на пробное от:</b> ${username}\n` +
+            `<b>Имя:</b> ${data?.name}, <b>возраст:</b> ${data?.age}\n` +
+            `<b>Номер телефона:</b> ${data.phone}\n` +
+            utm ?
+            `<b>utm:</b> ${utm.utm_source}, ${utm.utm_medium}, ${utm.utm_campaign}`
+            : ''
 
+      }
+      const bot = new TelegramBot(tokenTgBot);
       await bot.sendMessage(chatId, message, {
         parse_mode: 'HTML',
       });
