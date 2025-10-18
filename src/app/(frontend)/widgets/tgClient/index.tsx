@@ -4,21 +4,8 @@ import { validateTgSignature } from '@front/widgets/tgClient/verify-telegram-dat
 import serverLog from '@/utilities/serverLog'
 import { useUser } from '@front/widgets/UserContext'
 import { useRouter } from 'next/navigation'
+import { IPageStartParams, ITgClientProps, TelegramWebApp, UserData } from '@front/widgets/tgClient/types'
 
-interface TelegramWebAppUser {
-  id: number
-  first_name: string
-  last_name?: string
-  username?: string
-  photo_url?: string
-}
-interface TelegramWebApp {
-  initDataUnsafe: {
-    user?: TelegramWebAppUser
-    start_param: string
-  }
-  initData: string
-}
 declare global {
   interface Window {
     Telegram: {
@@ -26,24 +13,7 @@ declare global {
     }
   }
 }
-export interface UserData {
-  id?: number
-  firstName?: string
-  lastName?: string
-  username?: string
-  photoUrl?: string
-  isDataValid: boolean
-  startParam?: string
-}
 
-interface IPageStartParams {
-  pg?: string
-  usr?: string
-  umd?: string
-  ucm?: string
-  ucn?: string
-  utr?: string
-}
 
 const waitForTelegram = (): Promise<void> => {
   return new Promise<void>((resolve) => {
@@ -68,7 +38,6 @@ const parseStartParams = (startParams: string): IPageStartParams => {
       params[key] = value
     }
   }
-  console.log(params)
   return params
 }
 const buildUrl = (params: IPageStartParams): string => {
@@ -93,7 +62,7 @@ const buildUrl = (params: IPageStartParams): string => {
 }
 
 
-export default function TgClient( ) {
+export default function TgClient( { children }: ITgClientProps ) {
 const [userData, setUserData] = useState<UserData>({ isDataValid: true })
   const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен')
   const [startParams, setStartParams] = useState<any>({})
@@ -197,6 +166,7 @@ const [userData, setUserData] = useState<UserData>({ isDataValid: true })
         {userData.isDataValid && <p>Данные валидны</p>}
         {userData.startParam && <p>{userData.startParam}</p>}
       </>
+      {children}
     </div>
   )
 }

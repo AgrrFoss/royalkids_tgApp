@@ -1,6 +1,6 @@
 'use client'
 import React, { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react'
-import { UserData } from '@front/widgets/tgClient'
+import { UserData } from '@front/widgets/tgClient/types'
 
 interface IUserContext {
   user: UserData| null,

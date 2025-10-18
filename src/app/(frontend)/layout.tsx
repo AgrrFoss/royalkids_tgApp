@@ -26,8 +26,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       </head>
       <UserContextProvider>
         <body>
-          <TgClient/>
-          {children}
+          <TgClient>
+            {children}
+          </TgClient>
           <YandexMetrika counter={Number(options.yandexMetrikaId)}/>
         </body>
       </UserContextProvider>
