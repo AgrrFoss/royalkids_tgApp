@@ -9,6 +9,7 @@ import YandexMetrika from '@front/features/yandexMetrica/component'
 import { DataFromGlobalSlug } from 'payload'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import process from 'node:process'
+import styles from './styles.module.scss'
 
 
 export const metadata = {
@@ -22,14 +23,14 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL
   return (
     <html lang="en">
-      <head>
-        {typeof window !== undefined && <TgScript/>}
-      </head>
+      <head>{typeof window !== undefined && <TgScript />}</head>
       <UserContextProvider>
         <body>
-          <YandexMetrika counter={Number(options.yandexMetrikaId)}/>
+          <YandexMetrika counter={Number(options.yandexMetrikaId)} />
           <TgClient baseUrl={baseUrl}>
-            {children}
+            <main className={styles.main}>
+              {children}
+            </main>
           </TgClient>
         </body>
       </UserContextProvider>
