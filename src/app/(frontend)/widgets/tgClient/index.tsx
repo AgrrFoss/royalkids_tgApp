@@ -28,7 +28,7 @@ const waitForTelegram = (): Promise<void> => {
     checkTelegram()
   })
 }
-const parseStartParams = (startParams: string): IPageStartParams => {
+export const parseStartParams = (startParams: string): IPageStartParams => {
   const params: Record<string, string> = {}
   const paramPairs = startParams.split('_')
   for (const pair of paramPairs) {
@@ -62,7 +62,6 @@ const buildUrl = (params: IPageStartParams): string => {
 
 export default function TgClient( { children }: ITgClientProps ) {
   const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен')
-  const [startParams, setStartParams] = useState<any>({})
   const [isDarkMode, setDarkMode] = useState<boolean>(false)
   const { user,  setUser } = useUser()
   const router = useRouter()
@@ -113,7 +112,6 @@ export default function TgClient( { children }: ITgClientProps ) {
                     buildUrl(params)
                     router.push(buildUrl(params))
                   }
-                  setStartParams(params)
                 }
                 await serverLog('User установлен в контекст.')
               } else {
@@ -144,7 +142,6 @@ export default function TgClient( { children }: ITgClientProps ) {
     <div  style={{ backgroundColor: isDarkMode ? '#222' : '#fff', color: isDarkMode ? '#fff' : '#000' }}>
       <h1>Информация от ТГ АПП</h1>
       <div>{tgStatus}</div>
-      <div>{startParams.pg}</div>
       <>
         <p>User ID: {user?.id}</p>
         <p>First Name: {user?.firstName}</p>

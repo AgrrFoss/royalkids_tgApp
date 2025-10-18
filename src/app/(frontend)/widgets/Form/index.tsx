@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { sendMessage } from '@/utilities/sendMessage'
 import { useUser } from '@front/widgets/UserContext/'
+import { parseStartParams } from '@front/widgets/tgClient'
 
 export interface IFormInput {
   name: string,
@@ -42,11 +43,16 @@ export default function Form () {
     }
   )
   useEffect(() => {
-    const utm_source = searchParams.get('utm_source') || '';
-    const utm_medium = searchParams.get('utm_medium') || '';
-    const utm_campaign = searchParams.get('utm_campaign') || '';
-    const utm_term = searchParams.get('utm_term') || '';
-    const utm_content = searchParams.get('utm_content') || '';
+    let paramsInUser
+    if (user?.startParam) {
+      paramsInUser = parseStartParams(user.startParam)
+    }
+
+    const utm_source = searchParams.get('utm_source') || paramsInUser?.usr || '';
+    const utm_medium = searchParams.get('utm_medium') || paramsInUser?.umd || '';
+    const utm_campaign = searchParams.get('utm_campaign') || paramsInUser?.ucm || '';
+    const utm_term = searchParams.get('utm_term') || paramsInUser?.utr || '';
+    const utm_content = searchParams.get('utm_content') || paramsInUser?.ucn || '';
 
     setUtmParams({
       utm_source,
