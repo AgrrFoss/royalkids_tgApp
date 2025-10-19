@@ -44,15 +44,15 @@ export default async function Page({ params: paramsPromise }: IPageProps) {
     page && (
       <>
         {page && (
-          <main className={styles.main}>
-            <h1>Школа танцев Royal kids</h1>
+          <section className={styles.main}>
+            <h1 className={styles.title}>Школа танцев Royal kids</h1>
             <Image src={Logo} alt={'Логотип RoyalKids'} width={200} height={100} />
             <p>Скоро тут будет вся информация о нас, а пока вы можете</p>
             <Link href={`/trial`} className={styles.linkButton}>
               Записаться на пробное занятие
             </Link>
             <p>и оценить насколько у нас классно!</p>
-          </main>
+          </section>
         )}
       </>
     )

@@ -62,7 +62,6 @@ const buildUrl = (params: IPageStartParams): string => {
 }
 
 export default function TgClient( { children, baseUrl }: ITgClientProps ) {
-  const [tgStatus, setTgStatus] = useState<string>('Телеграм не подключен')
   const [isDarkMode, setDarkMode] = useState<boolean>(false)
   const { user,  setUser } = useUser()
   const router = useRouter()
@@ -90,11 +89,9 @@ export default function TgClient( { children, baseUrl }: ITgClientProps ) {
           tg.onEvent('themeChanged', () => {
             setDarkMode(window.Telegram.WebApp.colorScheme === 'dark');
           });
-          setTgStatus('Подключен ТГ')
           const initDataUnsafe = tg.initDataUnsafe || {}
           const user = initDataUnsafe.user
           if (user) {
-            setTgStatus('есть юзер')
             const processUserData = async () => {
               const isValid = await checkSignature(tg.initData)
               if (isValid) {
@@ -119,7 +116,6 @@ export default function TgClient( { children, baseUrl }: ITgClientProps ) {
                 await serverLog('User установлен в контекст.')
               } else {
                 console.error('Telegram data is not valid!')
-                setTgStatus('Тг данные на валидны')
                 setUser(prevState => ({...prevState, isDataValid: false}))
               }
             }
@@ -138,8 +134,7 @@ export default function TgClient( { children, baseUrl }: ITgClientProps ) {
       }
     }
     fetchData()
-    setTgStatus('Эффект работы с ТГ отработал')
-  }, [tgStatus, user])
+  }, [user])
 
   return (
     <div  style={{ backgroundColor: isDarkMode ? '#222' : '#fff', color: isDarkMode ? '#fff' : '#000' }}>
