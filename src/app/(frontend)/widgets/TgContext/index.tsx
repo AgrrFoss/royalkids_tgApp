@@ -1,7 +1,7 @@
 'use client'
 import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react'
 import { WebApp } from '@twa-dev/types';
-import { validateTgSignature } from '@front/widgets/tgClient/verify-telegram-data'
+import { validateTgSignature } from '@front/widgets/TgContext/verify-telegram-data'
 import serverLog from '@/utilities/serverLog'
 import ym from 'react-yandex-metrika'
 import { parseStartParams } from '@front/widgets/tgClient'
