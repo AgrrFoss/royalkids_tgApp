@@ -1,5 +1,4 @@
 'use client'
-
 import { SubmitHandler, useForm } from 'react-hook-form'
 import styles from './styles.module.scss'
 import cn from 'classnames'
@@ -25,7 +24,7 @@ export interface IUtmParams {
 const settingPhoneInput = {
   required: true,
   pattern: {
-    value: /^(?:\+7|8)?(?:\d{10})$/,
+    value: /^(?:\+7|8)\d{10}$/,
     message: 'Проверьте корректность номера телефона',
   }
 }
@@ -75,7 +74,6 @@ export default function Form () {
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <h3>Hello, {user?.username }</h3>
       <div className={styles.wrapper}>
         <input
           {...register('name')}
@@ -89,12 +87,17 @@ export default function Form () {
           className={cn(styles.input)}
           placeholder={'Возраст ребенка'}
         />
-        <input
-          {...register('phone', settingPhoneInput)}
-          type="text"
-          className={cn(styles.input, errors.phone && styles.input_error)}
-          placeholder={'Ваш телефон *'}
-        />
+        <label className={styles.label}>
+          <input
+            {...register('phone', settingPhoneInput)}
+            type="text"
+            className={cn(styles.input, errors.phone && styles.input_error)}
+            placeholder={'Ваш телефон *'}
+          />
+          <div className={styles.errorMessageContainer}>
+            {errors.phone && <span className={cn(styles.errorMessage_empty, errors.phone.message && styles.errorMessage )}>{errors.phone.message}</span>}
+          </div>
+        </label>
         <button type={'submit'} className={cn(styles.button)}>
           Оставить заявку
         </button>

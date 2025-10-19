@@ -143,17 +143,6 @@ export default function TgClient( { children, baseUrl }: ITgClientProps ) {
 
   return (
     <div  style={{ backgroundColor: isDarkMode ? '#222' : '#fff', color: isDarkMode ? '#fff' : '#000' }}>
-      <h1>Информация от ТГ АПП</h1>
-      <div>{tgStatus}</div>
-      <>
-        <p>User ID: {user?.id}</p>
-        <p>First Name: {user?.firstName}</p>
-        {user?.lastName && <p>Last Name: {user.lastName}</p>}
-        {user?.username && <p>Username: {user.username}</p>}
-        {user?.photoUrl && <img src={user.photoUrl} alt="User Photo" />}
-        {user?.isDataValid && <p>Данные валидны</p>}
-        {user?.startParam && <p>{user.startParam}</p>}
-      </>
       {children}
     </div>
   )
