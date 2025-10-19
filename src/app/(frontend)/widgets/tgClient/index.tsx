@@ -139,7 +139,7 @@ export default function TgClient( { children, baseUrl }: ITgClientProps ) {
   return (
     <div  style={{ backgroundColor: isDarkMode ? '#222' : '#fff', color: isDarkMode ? '#fff' : '#000' }}>
       <div>User: {user?.username}</div>
-      <div>User: {startParams?.startParam}</div>
+      <div>User: {user?.startParam}</div>
       {children}
     </div>
   )
