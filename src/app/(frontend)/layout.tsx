@@ -10,6 +10,7 @@ import { DataFromGlobalSlug } from 'payload'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import process from 'node:process'
 import styles from './styles.module.scss'
+import { TgContextProvider } from '@front/widgets/TgContext'
 
 
 export const metadata = {
@@ -24,6 +25,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>{typeof window !== undefined && <TgScript />}</head>
+      <TgContextProvider>
       <UserContextProvider>
         <body>
           <YandexMetrika counter={Number(options.yandexMetrikaId)} />
@@ -34,6 +36,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           </TgClient>
         </body>
       </UserContextProvider>
+      </TgContextProvider>
     </html>
   )
 }
