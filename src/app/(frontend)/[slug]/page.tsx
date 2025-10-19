@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '@public/logo.jpg'
+import LogoComponent from '@/shared/Logo'
 
 
 // export async function  generateStaticParams() {
@@ -46,7 +47,7 @@ export default async function Page({ params: paramsPromise }: IPageProps) {
         {page && (
           <section className={styles.main}>
             <h1 className={styles.title}>Школа танцев Royal kids</h1>
-            <Image src={Logo} alt={'Логотип RoyalKids'} width={200} height={100} />
+            <LogoComponent/>
             <p>Скоро тут будет вся информация о нас, а пока вы можете</p>
             <Link href={`/trial`} className={styles.linkButton}>
               Записаться на пробное занятие
