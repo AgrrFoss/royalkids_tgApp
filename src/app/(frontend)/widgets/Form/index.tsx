@@ -4,10 +4,19 @@ import styles from './styles.module.scss'
 import cn from 'classnames'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { sendMessage } from '@/utilities/sendMessage'
 import { useUser } from '@front/widgets/UserContext/'
 import { parseStartParams } from '@front/widgets/tgClient'
+import { useTg } from '@front/widgets/TgContext'
+import { Popup } from '@/shared/Popup'
+
+interface IFormProps {
+  purpose: 'event' | 'trial'
+  children?: React.ReactNode
+  isDarkProps?: boolean
+  className?: string
+}
 
 export interface IFormInput {
   name: string,
@@ -29,9 +38,13 @@ const settingPhoneInput = {
   }
 }
 
-export default function Form () {
+export default function Form ({purpose, children, isDarkProps, className }: IFormProps) {
+  const { tg } = useTg()
+  const router = useRouter();
+  const isDark = isDarkProps || (tg?.colorScheme === 'dark')
   const { user } = useUser()
   const searchParams = useSearchParams()
+  const [isSubmit, setSubmit] = useState<boolean>(false)
   const [utmParams, setUtmParams] = useState<IUtmParams>(
     {
       utm_source: '',
@@ -62,19 +75,25 @@ export default function Form () {
     });
   }, [searchParams]);
 
-
-
   const { register, handleSubmit, formState: {errors}, reset} = useForm<IFormInput>({
     mode: 'onChange',
   })
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    try{
+      await sendMessage(data, utmParams, purpose, user?.username)
+      setSubmit(true)
+      reset()
+      setTimeout(() => {
+        router.push('/');
+      }, 5000);
+    } catch (error) {
+      console.error('Ошибка отправки:', error);
+    }
 
-    await sendMessage(data, utmParams, 'trial', user?.username)
-    reset()
   }
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <div className={styles.wrapper}>
+    <form onSubmit={handleSubmit(onSubmit)} className={cn(styles.form, className)}>
+      <div className={styles.inputWrapper}>
         <input
           {...register('name')}
           type={'text'}
@@ -101,8 +120,12 @@ export default function Form () {
         <button type={'submit'} className={cn(styles.button)}>
           Оставить заявку
         </button>
+        {isSubmit && <Popup>
+          Заявка отправлена, менеджер перезвонит вам для подтверждения записи. Скоро вы будете перенаправлены на главную
+        </Popup>}
       </div>
-      <p className={styles.note}>
+      {children}
+      <p className={cn(styles.note, isDark && styles.note_darkTheme)}>
         Нажимая кнопку “Отправить заявку”, вы соглашаетесь на{' '}
         <Link className={cn(styles.link)} href={''}>
           обработку персональных данных

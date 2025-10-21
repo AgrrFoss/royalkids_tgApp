@@ -12,11 +12,17 @@
     font-style: normal;
     font-weight: 600;
 }
-
 @font-face {
     src: url("/fonts/Alumni_sans_semibold.woff") format('woff');
     src: url("/fonts/Alumni_sans_semibold.woff2") format('woff2');
     font-family: 'Alumni-sans';
+    font-style: normal;
+    font-weight: 600;
+}
+@font-face {
+    src: url("/fonts/Creepster.woff") format('woff');
+    //src: url("/fonts/Creepster.woff2") format('woff2');
+    font-family: 'Creepster';
     font-style: normal;
     font-weight: 600;
 }

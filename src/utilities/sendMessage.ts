@@ -9,11 +9,11 @@ export const sendMessage = async (data: IFormInput, utm: IUtmParams, formType: '
   if(tokenTgBot && chatId) {
     try {
        let message
-      const userHref = `https://t.me/${username}`
-      const userLink = `<a href="${userHref}">${username}</a>`;
+      const userHref = username && `https://t.me/${username}`
+      const userLink = username && `<a href="${userHref}">${username}</a>`;
       switch (formType) {
         case 'event':
-          message = `<b>Новая заявка на праздник от:</b> ${userLink}\n` +
+          message = `<b>Новая заявка на праздник от:</b> ${username ? userLink : 'Пользователь не определен'}\n` +
             `<b>Имя:</b> ${data?.name}, <b>возраст:</b> ${data?.age}\n` +
             `<b>Номер телефона:</b> ${data.phone}\n` +
             (utm ?

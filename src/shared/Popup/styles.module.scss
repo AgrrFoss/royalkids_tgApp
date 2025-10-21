@@ -1,0 +1,26 @@
+@import "@styles/main.scss";
+
+.popup {
+  position: absolute; /*  Используйте absolute или fixed в зависимости от макета */
+  top: 50%; /*  Размещение по центру по вертикали */
+  left: 50%; /*  Размещение по центру по горизонтали */
+  transform: translate(-50%, -50%); /*  Точное центрирование */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.91);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 1000; /*  Убедитесь, что попап выше всего остального контента */
+  opacity: 0;  /* Начальное состояние: невидимый */
+  transition: opacity 1s ease-in-out; /* Плавное появление */
+}
+
+.fadeIn {
+  opacity: 1; /*  Конечное состояние: видимый */
+}

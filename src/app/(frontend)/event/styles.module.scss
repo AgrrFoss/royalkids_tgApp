@@ -1,6 +1,43 @@
 @import "@styles/main.scss";
 
+.bg {
+  background: linear-gradient(60deg, #0f4848, #411051);
+  box-sizing: border-box;
+  padding: 1rem;
+  min-height: 100vh;
+  display: flex;
+  gap: .5rem;
+  flex-direction: column;
+}
+
 .title {
-  font-size: 1.5rem;
+  font-family: Creepster;
+  font-size: 2rem;
   text-align: center;
+  color: white;
+  margin: 0;
+}
+.logo {
+  width: 100%;
+  margin: auto;
+}
+.form {
+  flex-grow: 1;
+}
+.description {
+  max-width: 300px;
+  color: $main-bg-color;
+}
+.subtitle {
+  margin: 0;
+}
+.list {
+  margin: 0 0 0 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+.listItem {
+  list-style: '🎃 ';
 }
