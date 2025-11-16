@@ -3,8 +3,6 @@ import React, { createContext, useContext, useState, useEffect, useRef, useCallb
 import { WebApp } from '@twa-dev/types';
 import { validateTgSignature } from '@front/widgets/TgContext/verify-telegram-data'
 import serverLog from '@/utilities/serverLog'
-import ym from 'react-yandex-metrika'
-import { parseStartParams } from '@front/widgets/tgClient'
 import { useUser } from '@front/widgets/UserContext'
 
 interface TgContextProps {
@@ -51,8 +49,7 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
 
   useEffect(() => {
     const initializeTg = async () => {
-      if (telegramInitialized.current) { // Проверка, была ли функция уже вызвана
-        console.log("Telegram already initialized, skipping.");
+      if (telegramInitialized.current) {
         return;
       }
       try {
@@ -76,7 +73,6 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
                   isDataValid: true,
                   startParam: initDataUnsafe.start_param
                 })
-                await serverLog('User установлен в контекст.')
               } else {
                 console.error('Telegram data is not valid!')
                 setUser(prevState => ({...prevState, isDataValid: false}))
@@ -84,16 +80,11 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
             }
             processUserData()
           } else {
-            console.log('User data not available.')
             await serverLog('User data not available.')
           }
         } else {
           await serverLog('ТГ не найден')
         }
-
-
-
-
       } catch (error) {
         console.error('Ошибка при инициализации Telegram Web App:', error)
       } finally {
@@ -102,17 +93,6 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
     }
     initializeTg()
   }, [])
-
-
-
-
-
-
-
-
-
-
-
 
   return (
     <TgContext.Provider value={{tg, isTgReady}}>

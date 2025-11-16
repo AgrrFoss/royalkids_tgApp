@@ -10,9 +10,11 @@ import { useUser } from '@front/widgets/UserContext/'
 import { parseStartParams } from '@front/widgets/tgClient'
 import { useTg } from '@front/widgets/TgContext'
 import { Popup } from '@/shared/Popup'
+import { sendFormData } from '@/utilities/sendData'
 
 interface IFormProps {
   purpose: 'event' | 'trial'
+  formName?: string
   children?: React.ReactNode
   isDarkProps?: boolean
   className?: string
@@ -38,7 +40,7 @@ const settingPhoneInput = {
   }
 }
 
-export default function Form ({purpose, children, isDarkProps, className }: IFormProps) {
+export default function Form ({purpose, formName, children, isDarkProps, className }: IFormProps) {
   const { tg } = useTg()
   const router = useRouter();
   const isDark = isDarkProps || (tg?.colorScheme === 'dark')
@@ -80,6 +82,7 @@ export default function Form ({purpose, children, isDarkProps, className }: IFor
   })
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try{
+      await sendFormData('/applications', data, user, utmParams, (formName || purpose))
       await sendMessage(data, utmParams, purpose, user?.username)
       setSubmit(true)
       reset()
