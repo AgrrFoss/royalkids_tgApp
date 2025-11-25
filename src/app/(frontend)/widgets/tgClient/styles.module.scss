@@ -1,0 +1,12 @@
+@import "@styles/main.scss";
+
+.defaultTheme {
+  color: $text-dark-color;
+  background-color: $main-bg-color;
+}
+
+.darkTheme {
+  color: $main-bg-color;
+  background-color: $text-dark-color;
+
+}

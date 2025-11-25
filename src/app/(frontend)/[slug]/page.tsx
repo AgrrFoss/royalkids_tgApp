@@ -6,7 +6,9 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '@public/logo.jpg'
+import bg from '@public/images/bg.jpg'
 import LogoComponent from '@/shared/Logo'
+import Header from '@/shared/Blocks/Header'
 
 
 // export async function  generateStaticParams() {
@@ -42,8 +44,9 @@ export default async function Page({ params: paramsPromise }: IPageProps) {
   }
 
   return (
-    page && (
+    page &&
       <>
+        <Header/>
         {page && (
           <section className={styles.main}>
             <h1 className={styles.title}>Школа танцев Royal kids</h1>
@@ -56,7 +59,6 @@ export default async function Page({ params: paramsPromise }: IPageProps) {
           </section>
         )}
       </>
-    )
   )
 }
 

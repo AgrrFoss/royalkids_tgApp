@@ -1,0 +1,30 @@
+@import "@styles/main.scss";
+
+.header {
+  @include section;
+}
+.container {
+  @include container (30px);
+  overflow: hidden;
+}
+.bg {
+  width: 100%;
+  height: 200px;
+}
+.content {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.title {
+  text-transform: uppercase;
+}
+.description{
+  color: $grey-color;
+}
+ .more{
+   text-decoration: none;
+   padding: 10px 20px;
+ }

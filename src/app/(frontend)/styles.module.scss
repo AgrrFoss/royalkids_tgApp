@@ -1,8 +1,11 @@
 @import "@styles/main.scss";
-
+.body {
+  background: $main-bg-color;
+  margin: 0;
+}
 .main {
   width: 100%;
-  max-width: 400px;
+  max-width: 1024px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

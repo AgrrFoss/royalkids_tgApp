@@ -28,7 +28,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
       <UserContextProvider>
         <TgContextProvider>
-        <body>
+        <body className={styles.body}>
           <YandexMetrika counter={Number(options.yandexMetrikaId)} />
           <TgClient baseUrl={baseUrl}>
             <main className={styles.main}>

@@ -1,4 +1,5 @@
 'use client'
+import styles from './styles.module.scss'
 import { useEffect, useMemo, useState } from 'react'
 import { useUser } from '@front/widgets/UserContext'
 import { useRouter } from 'next/navigation'
@@ -7,6 +8,7 @@ import ym from 'react-yandex-metrika'
 import { useTg } from '@front/widgets/TgContext'
 import serverLog from '@/utilities/serverLog'
 import sendUserData from '@/utilities/sendData'
+import cn from 'classnames'
 
 interface ISubsriber {
   id?: number,
@@ -116,7 +118,7 @@ export default function TgClient( { children, baseUrl }: ITgClientProps ) {
   }, [baseUrl, isTgReady, router, tg, user])
 
   return (
-    <div  style={{ backgroundColor: isDarkMode ? '#222' : '#fff', color: isDarkMode ? '#fff' : '#000' }}>
+    <div className={cn(isDarkMode ? styles.darkTheme : styles.defaultTheme)}>
       {children}
     </div>
   )

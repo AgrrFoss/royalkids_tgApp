@@ -20,3 +20,16 @@
     }
   }
 }
+
+@mixin section{
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1024px;
+  box-sizing: border-box;
+  padding: 0 20px;
+}
+@mixin container ($br: 0, $pad: 0) {
+  border-radius: $br;
+  box-sizing: border-box;
+  padding: $pad;
+}
