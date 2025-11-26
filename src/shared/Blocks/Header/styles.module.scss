@@ -6,6 +6,7 @@
 .container {
   @include container (30px);
   overflow: hidden;
+  background-color: var(--bg-container);
 }
 .bg {
   width: 100%;
@@ -16,6 +17,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  gap: 20px;
 }
 
 .title {
@@ -24,7 +26,29 @@
 .description{
   color: $grey-color;
 }
- .more{
-   text-decoration: none;
-   padding: 10px 20px;
- }
+.more{
+ width: 100%;
+ text-decoration: none;
+ padding: 15px 20px;
+ font-weight: 600;
+ color: var(--text-primary);
+ background-image:
+         linear-gradient(to right, var(--border-color) 4px, transparent 4px, transparent 10px); // <-- Настройка здесь!
+ background-size: 8px 2px; // <-- И здесь
+ background-repeat: repeat-x;
+ background-position: 0 0;
+}
+.moreText {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  &:after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-bottom: 2px solid var(--text-primary);
+    border-right: 2px solid var(--text-primary);
+    transform: rotate(45deg);
+  }
+}

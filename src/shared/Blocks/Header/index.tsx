@@ -15,7 +15,7 @@ export default async function Header() {
         <div className={styles.content}>
           <h1 className={styles.title}>RoyalKids</h1>
           <span className={styles.description}>Федеральная сеть танцевальных студий для детей от 4 до 16 лет</span>
-          <Link className={styles.more} href={'/'}> Узнать больше</Link>
+          <Link className={styles.more} href={'/'}> <span className={styles.moreText}>Узнать больше</span></Link>
         </div>
 
       </div>

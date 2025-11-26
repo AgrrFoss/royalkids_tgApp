@@ -35,6 +35,7 @@ const waitForTelegram = (): Promise<void> => {
 export const TgContextProvider = ({children}: TgProviderProps) => {
   const [tg, setTg] = useState<WebApp | null>(null);
   const [ isTgReady, setIsTgReady] = useState<boolean>(false);
+  const [isDarkMode, setDarkMode] = useState<boolean>(false)
   const telegramInitialized = useRef(false);
   const { user,  setUser } = useUser()
 
@@ -48,6 +49,16 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
 
 
   useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add('dark-theme');
+      document.body.classList.remove('light-theme');
+    } else {
+      document.body.classList.add('light-theme');
+      document.body.classList.remove('dark-theme');
+    }
+  }, [isDarkMode])
+
+  useEffect(() => {
     const initializeTg = async () => {
       if (telegramInitialized.current) {
         return;
@@ -59,6 +70,11 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
           setTg(tgInstance)
           setIsTgReady(true);
           const initDataUnsafe = tgInstance.initDataUnsafe || {}
+
+          setDarkMode(tgInstance.colorScheme === 'dark');
+          tgInstance.onEvent('themeChanged', () => {
+            setDarkMode(tgInstance.colorScheme === 'dark');
+          });
           const user = initDataUnsafe.user
           if (user) {
             const processUserData = async () => {

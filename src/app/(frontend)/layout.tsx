@@ -1,8 +1,6 @@
 import React, { Suspense } from 'react'
 import './global.scss'
 import TgScript from '@front/widgets/tgClient/tgScript'
-import Script from 'next/script'
-import Head from 'next/head'
 import { UserContextProvider } from '@front/widgets/UserContext'
 import TgClient from '@front/widgets/tgClient'
 import YandexMetrika from '@front/features/yandexMetrica/component'

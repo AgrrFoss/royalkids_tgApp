@@ -1,0 +1,48 @@
+@import './variables';
+:root {
+  --bg-primary: #{$light-bg-primary};
+  --bg-container: #{$light-bg-container};
+  --text-primary: #{$light-text-primary};
+  --text-secondary: #{$light-text-secondary};
+  --border-color: #{$light-border-color};
+  --accent-color: #{$light-accent-color};
+  --card-bg: #{$light-card-bg};
+  --shadow-color: #{$light-shadow-color};
+}
+body.dark-theme { // ИЗМЕНЕНИЕ ЗДЕСЬ
+  --bg-primary: #{$dark-bg-primary};
+  --bg-container: #{$dark-bg-container};
+  --text-primary: #{$dark-text-primary};
+  --text-secondary: #{$dark-text-secondary};
+  --border-color: #{$dark-border-color};
+  --accent-color: #{$dark-accent-color};
+  --card-bg: #{$dark-card-bg};
+  --shadow-color: #{$dark-shadow-color};
+}
+
+@media (prefers-color-scheme: dark) {
+  // Эти переменные будут применяться, если пользователь не задал тему явно,
+  // и система предпочитает темную.
+  // Они применяются к :root, чтобы быть глобально доступными.
+  :root {
+    --bg-primary: #{$dark-bg-primary};
+    --bg-container: #{$dark-bg-container};
+    --text-primary: #{$dark-text-primary};
+    --text-secondary: #{$dark-text-secondary};
+    --border-color: #{$dark-border-color};
+    --accent-color: #{$dark-accent-color};
+    --card-bg: #{$dark-card-bg};
+    --shadow-color: #{$dark-shadow-color};
+  }
+}
+
+body.light-theme { // ИЗМЕНЕНИЕ ЗДЕСЬ
+  --bg-primary: #{$light-bg-primary};
+  --bg-container: #{$light-bg-container};
+  --text-primary: #{$light-text-primary};
+  --text-secondary: #{$light-text-secondary};
+  --border-color: #{$light-border-color};
+  --accent-color: #{$light-accent-color};
+  --card-bg: #{$light-card-bg};
+  --shadow-color: #{$light-shadow-color};
+}

@@ -6,16 +6,21 @@ import { IFormInput, IUtmParams } from '@front/widgets/Form'
 const serverUrl = process.env.NEST_BOT_API_URL
 
 const sendUserData = async (endpoint: string, data: any) => {
-  const fetchOptions = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8'
-    },
-    body: JSON.stringify(data)
+  try {
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(data)
+    }
+    const response = await fetch(`${serverUrl}${endpoint}`, fetchOptions)
+    const json = await response.json()
+    return json
+  } catch (e) {
+    console.error(e)
   }
-  const response = await fetch(`${serverUrl}${endpoint}`, fetchOptions)
-  const json = await response.json()
-  return json
+
 }
 
 export default sendUserData

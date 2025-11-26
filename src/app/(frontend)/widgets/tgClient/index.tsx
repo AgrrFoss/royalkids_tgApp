@@ -62,7 +62,6 @@ const buildUrl = (params: IPageStartParams): string => {
 }
 
 export default function TgClient( { children, baseUrl }: ITgClientProps ) {
-  const [isDarkMode, setDarkMode] = useState<boolean>(false)
   const { user } = useUser()
   const { tg, isTgReady} = useTg()
   const router = useRouter()
@@ -105,10 +104,6 @@ export default function TgClient( { children, baseUrl }: ITgClientProps ) {
 
   useEffect(() => {
     if (isTgReady && tg) {
-      setDarkMode(tg.colorScheme === 'dark');
-      tg.onEvent('themeChanged', () => {
-        setDarkMode(tg.colorScheme === 'dark');
-      });
       if (newUrl) { // Используем кешированный newUrl
         const urlForYM = baseUrl ? `${baseUrl}${newUrl}` : newUrl;
         ym('hit', urlForYM);
@@ -118,7 +113,7 @@ export default function TgClient( { children, baseUrl }: ITgClientProps ) {
   }, [baseUrl, isTgReady, router, tg, user])
 
   return (
-    <div className={cn(isDarkMode ? styles.darkTheme : styles.defaultTheme)}>
+    <div>
       {children}
     </div>
   )
