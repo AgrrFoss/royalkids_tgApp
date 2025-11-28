@@ -188,8 +188,7 @@ export interface Media {
 export interface Page {
   id: number;
   title?: string | null;
-  image?: (number | null) | Media;
-  image2?: (number | null) | Media;
+  blocks?: (CardsBlock | CallToActionBlock)[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -204,6 +203,72 @@ export interface Page {
   slug?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardsBlock".
+ */
+export interface CardsBlock {
+  title?: string | null;
+  cards?:
+    | {
+        title?: string | null;
+        smallText?: string | null;
+        bigText?: string | null;
+        caption?: string | null;
+        image?: (number | null) | Media;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          /**
+           * Укажите если нужен переход на конкретный раздел страницы
+           */
+          anchor?: string | null;
+          url?: string | null;
+          /**
+           * Если оставить пустым подставится текст по умолчанию из макета
+           */
+          label?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'cardsBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock".
+ */
+export interface CallToActionBlock {
+  title?: string | null;
+  description?: string | null;
+  image?: (number | null) | Media;
+  link?: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    /**
+     * Укажите если нужен переход на конкретный раздел страницы
+     */
+    anchor?: string | null;
+    url?: string | null;
+    /**
+     * Если оставить пустым подставится текст по умолчанию из макета
+     */
+    label?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'callToActionBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -339,8 +404,12 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
-  image?: T;
-  image2?: T;
+  blocks?:
+    | T
+    | {
+        cardsBlock?: T | CardsBlockSelect<T>;
+        callToActionBlock?: T | CallToActionBlockSelect<T>;
+      };
   meta?:
     | T
     | {
@@ -351,6 +420,56 @@ export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardsBlock_select".
+ */
+export interface CardsBlockSelect<T extends boolean = true> {
+  title?: T;
+  cards?:
+    | T
+    | {
+        title?: T;
+        smallText?: T;
+        bigText?: T;
+        caption?: T;
+        image?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              anchor?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock_select".
+ */
+export interface CallToActionBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  image?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        anchor?: T;
+        url?: T;
+        label?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

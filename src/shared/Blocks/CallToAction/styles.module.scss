@@ -1,0 +1,31 @@
+@import "@styles/main.scss";
+
+.section {
+  @include section;
+}
+.title {
+  margin: 0;
+}
+.container {
+  @include container;
+  position: relative;
+  padding: 20px 20px;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 20px;
+  position: relative;
+  z-index: 3;
+}
+.button {
+  display: block;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 15px;
+  color: var(--text-primary);
+  background-color: var(--bg-container);
+}

@@ -3,6 +3,8 @@ import { isAdmin } from '@cms/access/isAdmin'
 import { revalidateDelete, revalidatePage } from '@cms/hooks/revalidatePage'
 import { textField } from '@cms/fields/textField'
 import superLink from '@/shared/Link/config'
+import { CardsBlock } from '@/shared/Blocks/Cards/config'
+import { CallToActionBlock } from '@/shared/Blocks/CallToAction/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -23,16 +25,10 @@ export const Pages: CollectionConfig = {
   fields: [
     textField('title', 'Название страницы', false),
     {
-      name: 'image',
-      type: 'upload',
-      label: 'Изображение тест',
-      relationTo: 'media'
-    },
-    {
-      name: 'image2',
-      type: 'upload',
-      label: 'Изображение тест 2',
-      relationTo: 'media'
-    },
+      name: 'blocks',
+      label: 'Блоки',
+      type: 'blocks',
+      blocks: [CardsBlock, CallToActionBlock]
+    }
   ],
 }

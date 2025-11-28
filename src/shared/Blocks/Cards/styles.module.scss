@@ -1,0 +1,82 @@
+@import "@styles/main.scss";
+.container {
+  @include container(0, 20px);
+}
+
+.cardsList {
+  display: grid;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  grid-template-columns: repeat(2,1fr);
+  justify-content: space-between;
+  justify-items: stretch;
+}
+.card {
+  overflow: hidden;
+  width: 100%;
+  border-radius: 20px;
+}
+
+.link {
+  position: relative;
+  text-decoration: none;
+  color: $light-bg-container;
+}
+
+
+
+
+.content {
+  aspect-ratio: 1 / .8;
+  //min-height: 150px;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: end;
+}
+.content_title {
+  justify-content: start;
+}
+.title{
+  font-size: 14px;
+  text-align: center;
+  @include media(sm) {
+    font-size: 24px;
+  }
+  @include media(md) {
+    font-size: 36px;
+  }
+}
+.text {
+  flex-grow: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.smallText {
+  font-size: .7rem;
+}
+.bigText{
+  font-size: 3rem;
+  font-weight: 900;
+}
+.caption {
+  font-size: .6rem;
+  text-align: center;
+  padding: 5px;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  font-weight: 800;
+  width: 100%;
+  background-color: $accent-color;
+  @include media(sm) {
+    font-size: 1rem;
+  }
+}

@@ -1,3 +1,4 @@
+'use server'
 import styles from './page.module.scss';
 import { DataFromCollectionSlug } from 'payload'
 import { Metadata, ResolvingMetadata } from 'next'
@@ -9,6 +10,8 @@ import Logo from '@public/logo.jpg'
 import bg from '@public/images/bg.jpg'
 import LogoComponent from '@/shared/Logo'
 import Header from '@/shared/Blocks/Header'
+import CallToAction from '@/shared/Blocks/CallToAction'
+import CardsBlockComponent from '@/shared/Blocks/Cards'
 
 
 // export async function  generateStaticParams() {
@@ -39,26 +42,39 @@ interface IPageProps {
 export default async function Page({ params: paramsPromise }: IPageProps) {
   const { slug = 'home' } = await paramsPromise
   const page = (await getCachedDocument('pages', slug, 4)()) as DataFromCollectionSlug<'pages'>
+  const blocks = page?.blocks
   if (!page) {
     notFound()
   }
 
   return (
     page &&
-      <>
-        <Header/>
-        {page && (
-          <section className={styles.main}>
-            <h1 className={styles.title}>Школа танцев Royal kids</h1>
-            <LogoComponent/>
-            <p>Скоро тут будет вся информация о нас, а пока вы можете</p>
-            <Link href={`/trial`} className={styles.linkButton}>
-              Записаться на пробное занятие
-            </Link>
-            <p>и оценить насколько у нас классно!</p>
-          </section>
-        )}
-      </>
+      <section className={styles.main}>
+        <h1 className={styles.title}>Школа танцев Royal kids</h1>
+        <LogoComponent/>
+        <p>Скоро тут будет вся информация о нас, а пока вы можете</p>
+        <Link href={`/trial`} className={styles.linkButton}>
+          Записаться на пробное занятие
+        </Link>
+        <p>и оценить насколько у нас классно!</p>
+      </section>
+    // page &&
+    //   <>
+    //     <Header/>
+    //     {blocks && blocks.length > 0 &&
+    //     blocks.map((block) => {
+    //       switch (block.blockType) {
+    //         case 'cardsBlock':
+    //           return (
+    //             <CardsBlockComponent key={block.id} block={block} />
+    //           )
+    //         case 'callToActionBlock':
+    //           return (
+    //             <CallToAction key={block.id} block={block}/>
+    //           )
+    //       }
+    //     })}
+    //   </>
   )
 }
 
