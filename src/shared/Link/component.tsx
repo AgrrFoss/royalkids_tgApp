@@ -4,6 +4,7 @@ import cn from 'classnames'
 import { Media, Page } from '@/payload-types'
 import process from 'node:process'
 import { getClientSideURL } from '@/utilities/getURL'
+import { ReactNode } from 'react'
 
 interface IButtonLinkProps {
   link: {
@@ -22,11 +23,11 @@ interface IButtonLinkProps {
     url?: string | null;
     label?: string | null;
   }
-  buttonText?: string;
+  children?: ReactNode;
   className?: string,
 }
 
-const SuperButtonLink = ({ link, buttonText, className }: IButtonLinkProps) => {
+const SuperButtonLink = ({ link, children, className }: IButtonLinkProps) => {
 
   let href = '/'
   if (link && link?.type === 'custom' && link.url) {
@@ -55,7 +56,7 @@ const SuperButtonLink = ({ link, buttonText, className }: IButtonLinkProps) => {
           target={link.newTab ? '_blank' : '_self'}
           className={cn(className || styles.buttonLink)}
     >
-      {link.label || buttonText || 'Подробнее'}
+      {children || link.label || 'Подробнее'}
     </Link>
   )
 }
