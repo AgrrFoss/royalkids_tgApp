@@ -11,11 +11,17 @@
 }
 
 .title {
-  font-family: Creepster;
   font-size: 2rem;
   text-align: center;
   color: white;
+  display: flex;
+  flex-direction: column;
   margin: 0;
+  font-weight: 600;
+}
+.partyName {
+  text-transform: uppercase;
+  font-weight: 900;
 }
 .logo {
   width: 100%;
@@ -28,6 +34,11 @@
   max-width: 300px;
   color: $main-bg-color;
 }
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .subtitle {
   margin: 0;
 }
@@ -39,5 +50,5 @@
   gap: .3rem;
 }
 .listItem {
-  list-style: '🎃 ';
+  list-style: '⭐️ ';
 }
