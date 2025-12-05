@@ -1,0 +1,55 @@
+@import "@styles/main.scss";
+
+.bg {
+  background: var( --bg-primary);
+  box-sizing: border-box;
+  padding: 1rem;
+  min-height: 100vh;
+  display: flex;
+  gap: .5rem;
+  flex-direction: column;
+  width: 100%;
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-weight: 600;
+}
+.partyName {
+  text-transform: uppercase;
+  font-weight: 900;
+}
+.logo {
+  width: 100%;
+  margin: auto;
+}
+.form {
+  flex-grow: 1;
+}
+.description {
+  max-width: 300px;
+  color: $main-bg-color;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.subtitle {
+  margin: 0;
+}
+.list {
+  margin: 0 0 0 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+.listItem {
+  list-style: '⭐️ ';
+}

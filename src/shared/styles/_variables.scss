@@ -18,7 +18,7 @@ $blue-light: #24f7ff;
 
 $link: #00a39c;
 
-$light-bg-primary: #ffebff;
+$light-bg-primary: linear-gradient(30deg, #c9ffff, #feadff);
 $light-bg-container: #ffffff;
 $light-text-primary: #333;
 $light-text-secondary: #666;
@@ -27,7 +27,7 @@ $light-accent-color: #0070f3;
 $light-card-bg: #ffffff;
 $light-shadow-color: rgba(0, 0, 0, 0.1);
 
-$dark-bg-primary: #1a1a1a;
+$dark-bg-primary: linear-gradient(60deg, #0f4848, #411051);
 $dark-bg-container: #000000;
 $dark-text-primary: #fff;
 $dark-text-secondary: #b0b0b0;

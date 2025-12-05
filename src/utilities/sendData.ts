@@ -2,6 +2,7 @@
 import process from 'node:process'
 import { UserData } from '@front/widgets/tgClient/types'
 import { IFormInput, IUtmParams } from '@front/widgets/Form'
+import { IGiftFormInput } from '@front/widgets/GIftForm'
 
 const serverUrl = process.env.NEST_BOT_API_URL
 
@@ -27,7 +28,7 @@ export default sendUserData
 
 export const sendFormData = async (
   endpoint: string,
-  data: IFormInput,
+  data: IFormInput | IGiftFormInput,
   user: UserData | null,
   utmParams: IUtmParams,
   formName: string) => {
@@ -57,6 +58,5 @@ export const sendFormData = async (
   }
   const response = await fetch(`${serverUrl}${endpoint}`, fetchOptions)
   const json = await response.json()
-  console.log('Возвращенный ответ', json)
   return json
 }

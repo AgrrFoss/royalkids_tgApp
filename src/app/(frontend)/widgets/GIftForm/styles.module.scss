@@ -1,0 +1,170 @@
+@import "@styles/main.scss";
+@keyframes varyingRotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+
+
+
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 600px;
+  margin: 2rem auto;
+  color: var(--text-primary)
+}
+
+
+
+
+.formWrapper {
+  /* Эти стили позволят анимировать высоту и прозрачность */
+  //opacity: 0;
+  //max-height: 0;
+  overflow: hidden; /* Скрывает содержимое, когда высота 0 */
+  transition: opacity 5s ease-out;//, max-height 5s ease-out;
+  transform: translateY(20px); /* Для небольшой анимации "скольжения" */
+  //visibility: hidden; /* Скрываем из потока пока не анимируем */
+
+  /* Важно для того, чтобы контент формы был центрирован */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Занимает всю ширину родителя .card */
+}
+
+/* Состояние "входа" формы */
+.formEnter {
+  opacity: 1;
+  //max-height: 500px; /* Достаточно большая высота, чтобы вместить всю форму */
+  transform: translateY(0);
+  visibility: visible;
+}
+
+/* Состояние "выхода" формы */
+.formExit {
+  opacity: 0;
+  //max-height: 0;
+  transform: translateY(-20px);
+  /* visibility: hidden будет применено автоматически после перехода */
+}
+
+.card {
+  /* ... существующие стили ... */
+  display: flex; /* Делаем card flex-контейнером */
+  justify-content: center; /* Центрируем содержимое */
+  align-items: center;
+  min-height: 200px; /* Чтобы card не схлопывался во время анимации */
+  /* Remove any explicit padding or height that would conflict with formWrapper's max-height */
+  padding: 0; /* Убираем padding, его будет иметь formWrapper внутри */
+  position: relative; /* Для позиционирования children, если необходимо, но в данном случае не критично */
+}
+
+.card > div { /* Target formWrapper, animationBox or prizeDisplay directly */
+  padding: 2rem; /* Возвращаем padding внутри обертки */
+  width: 100%;
+}
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+.inputWrapper {
+  position: relative;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 300px;
+}
+.label {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.input {
+  outline: none;
+  box-sizing: border-box;
+  color: $blue-dark;
+  border: 1px solid $blue-light;
+  font-size: 1.3rem;
+  padding: .5rem;
+  width: 100%;
+  border-radius: .5rem;
+}
+.input_error {
+  border: 1px solid $error-red;
+}
+.errorMessageContainer {
+  min-height: 1.2rem;
+}
+.errorMessage_empty {
+  color: $error-red;
+  font-weight: 400;
+  font-size: .7rem;
+  text-align: start;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+.errorMessage {
+  opacity: 1;
+}
+.button {
+  width: 100%;
+  background: $main-gradient;
+  border: 1px solid $blue-light;
+  font-size: 1.3rem;
+  box-sizing: border-box;
+  padding: .5rem;
+  border-radius: .5rem;
+}
+.note {
+  text-align: center;
+}
+.note_darkTheme {
+  color: $grey-color;
+}
+.link {
+  color: $link;
+}
+
+.presentWrapper {
+  animation: varyingRotation 3s ease-in-out;
+  position: relative;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prizeDisplay{
+  text-align: center;
+  position: relative;
+  z-index: 3;
+  font-size: 5rem;
+}
