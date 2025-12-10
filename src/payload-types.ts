@@ -188,7 +188,7 @@ export interface Media {
 export interface Page {
   id: number;
   title?: string | null;
-  blocks?: (CardsBlock | CallToActionBlock)[] | null;
+  blocks?: (CardsBlock | CallToActionBlock | SliderBlock)[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -269,6 +269,23 @@ export interface CallToActionBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'callToActionBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SliderBlock".
+ */
+export interface SliderBlock {
+  title?: string | null;
+  slides?:
+    | {
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  slidesPreview?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sliderBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -409,6 +426,7 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         cardsBlock?: T | CardsBlockSelect<T>;
         callToActionBlock?: T | CallToActionBlockSelect<T>;
+        sliderBlock?: T | SliderBlockSelect<T>;
       };
   meta?:
     | T
@@ -468,6 +486,22 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
         url?: T;
         label?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SliderBlock_select".
+ */
+export interface SliderBlockSelect<T extends boolean = true> {
+  title?: T;
+  slides?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  slidesPreview?: T;
   id?: T;
   blockName?: T;
 }

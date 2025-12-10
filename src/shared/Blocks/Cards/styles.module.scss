@@ -42,10 +42,14 @@
 }
 .content_title {
   justify-content: start;
+  padding: 20px;
+  box-sizing: border-box;
 }
 .title{
   font-size: 14px;
   text-align: center;
+  font-family: Bubble, sans-serif;
+  white-space: wrap;
   @include media(sm) {
     font-size: 24px;
   }

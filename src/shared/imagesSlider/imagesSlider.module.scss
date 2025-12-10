@@ -1,0 +1,91 @@
+@import "@styles/main.scss";
+
+.slider{
+  max-width: 100%;
+}
+.slidesWrapper{
+  margin: 0;
+  padding: 0;
+}
+.item{
+  border-radius: 30px;
+  overflow: hidden;
+  max-height: 370px !important;
+}
+.image{
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+
+.navigation{
+  display: none;
+  @include media(md) {
+    position: absolute;
+    width: min-content;
+    padding: 0 20px;
+    box-sizing: border-box;
+    margin: auto;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 12px;}
+}
+.nav{
+  border-radius: 50%;
+  border: 2px #fff solid;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover{
+    cursor: pointer;
+  }
+}
+.navPrev{
+  transform: rotateZ(180deg);
+}
+.pagination{
+  margin: 0 auto 20px;
+  justify-content: center;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  position: absolute;
+  z-index: 14;
+  left: 0;
+  right: 0;
+  @include media(sm){
+    margin: 0 auto 20px;
+  }
+}
+.bullet{
+  position: relative;
+  z-index: 89;
+  display: block;
+  width: 5px;
+  height: 5px;
+  background-color: white;
+  border-radius: 50%;
+  transition: all .2s linear;
+  &:hover{
+    cursor: pointer;
+  }
+}
+.bullet_active{
+  width: 14px;
+  height: 14px;
+  background-color: $blue-dark;
+}
+.bullet_active_green{
+  width: 14px;
+  height: 14px;
+  background-color: $green-dark;
+}
