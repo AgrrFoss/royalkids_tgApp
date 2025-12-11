@@ -51,16 +51,6 @@ export default async function Page({ params: paramsPromise }: IPageProps) {
 
   return (
     page &&
-      // <section className={styles.main}>
-      //   <h1 className={styles.title}>Школа танцев Royal kids</h1>
-      //   <LogoComponent/>
-      //   <p>Скоро тут будет вся информация о нас, а пока вы можете</p>
-      //   <Link href={`/trial`} className={styles.linkButton}>
-      //     Записаться на пробное занятие
-      //   </Link>
-      //   <p>и оценить насколько у нас классно!</p>
-      // </section>
-    page &&
       <>
         {blocks && blocks.length > 0 &&
         blocks.map((block) => {
@@ -79,7 +69,7 @@ export default async function Page({ params: paramsPromise }: IPageProps) {
               )
             case 'sliderBlock':
               return (
-                <SliderBlockComponent key={block.id} block={block}/>
+                  <SliderBlockComponent key={block.id} block={block} containerClass={styles.sliderContainer}/>
               )
           }
         })}

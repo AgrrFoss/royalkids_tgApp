@@ -1,23 +1,22 @@
 import styles from './styles.module.scss';
 import Image, { StaticImageData } from 'next/image'
-import bg from '@images/bg.jpg'
 import { Media, SliderBlock } from '@/payload-types'
-import SuperButtonLink from '@/shared/Link/component'
-import cn from 'classnames'
 import ImagesSlider from '@/shared/imagesSlider/ImagesSlider'
+import cn from 'classnames'
 
 
 interface ISliderBlockProps {
   block: SliderBlock
+  containerClass?: string
 }
 
 
 
-export default async function SliderBlockComponent({ block }: ISliderBlockProps) {
+export default async function SliderBlockComponent({ block, containerClass }: ISliderBlockProps) {
   const slides = block.slides
   return (
     <section>
-      <div className={styles.container}>
+      <div className={cn(styles.container, containerClass)}>
         {block.title && (<h2>{block.title}</h2>)}
         <div className={styles.sliderWrapper}>
           {
@@ -32,7 +31,7 @@ export default async function SliderBlockComponent({ block }: ISliderBlockProps)
                       alt={image.alt}
                       width={image.width || 320}
                       height={image.height || 480}
-                      style={{objectFit: slide.visibleMode || 'contain'}}
+                      style={{objectFit: slide.visibleMode || 'contain', aspectRatio: slide.aspectRatio || 1 }}
                     />
                   )
                 })}

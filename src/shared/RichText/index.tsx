@@ -5,14 +5,18 @@ import {
 } from '@payloadcms/richtext-lexical/react'
 import cn from 'classnames'
 import { ImageBlock } from '@blocks/ImageBlock/component'
+import { SliderBlock } from '@blocks/Slider/config'
+import SliderBlockComponent from '@blocks/Slider'
 
 
 const jsxConverters: JSXConvertersFunction = ({defaultConverters})=>({
   ...defaultConverters,
   blocks: {
     imageBlock: ({node}: any) => {
-      //@ts-ignore
       return (<ImageBlock {...node.fields} />)
+    },
+    sliderBlock: ({node}: any) => {
+      return (<SliderBlockComponent block={node.fields} />)
     }
   }
 })

@@ -30,15 +30,26 @@ export const SliderBlock: Block = {
           required: true
         },
         {
-          name: 'visibleMode',
-          label: 'режим отображения',
-          type: 'select',
-          options: [
-            {label: 'Растягивать', value: 'fill'},
-            {label: 'Обрезать', value: 'cover'},
-            {label: 'Сохранять пропорции', value: 'contain'}
+          type: 'row',
+          fields: [
+            {
+              name: 'visibleMode',
+              label: 'режим отображения',
+              type: 'select',
+              options: [
+                {label: 'Растягивать', value: 'fill'},
+                {label: 'Обрезать', value: 'cover'},
+                {label: 'Сохранять пропорции', value: 'contain'}
+              ]
+            },
+            {
+              name: 'aspectRatio',
+              type: 'number',
+              label: 'Соотношение ширины к высоте'
+            }
+
           ]
-        },
+        }
       ],
     },
     {

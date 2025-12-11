@@ -282,6 +282,7 @@ export interface SliderBlock {
     | {
         image: number | Media;
         visibleMode?: ('fill' | 'cover' | 'contain') | null;
+        aspectRatio?: number | null;
         id?: string | null;
       }[]
     | null;
@@ -580,6 +581,7 @@ export interface SliderBlockSelect<T extends boolean = true> {
     | {
         image?: T;
         visibleMode?: T;
+        aspectRatio?: T;
         id?: T;
       };
   slidesPreview?: T;
