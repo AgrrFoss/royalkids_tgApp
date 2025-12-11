@@ -2,15 +2,16 @@ import type { CollectionConfig } from 'payload'
 import { isAdmin } from '@cms/access/isAdmin'
 import { revalidateDelete, revalidatePage } from '@cms/hooks/revalidatePage'
 import { textField } from '@cms/fields/textField'
-import superLink from '@/shared/Link/config'
 import { CardsBlock } from '@/shared/Blocks/Cards/config'
 import { CallToActionBlock } from '@/shared/Blocks/CallToAction/config'
+import { SliderBlock } from '@/shared/Blocks/Slider/config'
+import { HeaderBlock } from '@/shared/Blocks/Header/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
-  // admin: {
-  //   useAsTitle: 'city',
-  // },
+  admin: {
+    useAsTitle: 'title',
+  },
   access: {
     read: () => true,
     create: isAdmin,
@@ -28,7 +29,7 @@ export const Pages: CollectionConfig = {
       name: 'blocks',
       label: 'Блоки',
       type: 'blocks',
-      blocks: [CardsBlock, CallToActionBlock]
+      blocks: [CardsBlock, CallToActionBlock, SliderBlock, HeaderBlock]
     }
   ],
 }

@@ -1,0 +1,29 @@
+@import "@styles/main.scss";
+.section {
+  margin: 0;
+  width: 100%;
+  background: var(--bg-container);
+
+}
+.title {
+}
+.article {
+  max-width: 100%;
+  margin: 0;
+  padding: 0 20px;
+  box-sizing: border-box;
+
+}
+.content {
+  box-sizing: border-box;
+  padding: 10px 0;
+  margin: 0;
+  grid-area: content;
+  color: var(--text-primary);
+  font-family: Montserrat, sans-serif;
+  background-image:
+          linear-gradient(to right, var(--border-color) 4px, transparent 4px, transparent 10px); // <-- Настройка здесь!
+  background-size: 8px 2px; // <-- И здесь
+  background-repeat: repeat-x;
+  background-position: 0 0;
+}

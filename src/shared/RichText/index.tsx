@@ -4,17 +4,21 @@ import {
   RichText as RichTextWithoutBlocks,
 } from '@payloadcms/richtext-lexical/react'
 import cn from 'classnames'
+import { ImageBlock } from '@blocks/ImageBlock/component'
+import { SliderBlock } from '@blocks/Slider/config'
+import SliderBlockComponent from '@blocks/Slider'
 
 
 const jsxConverters: JSXConvertersFunction = ({defaultConverters})=>({
   ...defaultConverters,
-  // blocks: {
-  //   bgTextImageBlock: ({node}: {node: any}) => {
-  //     return (
-  //         <BgTextImage content = {node.fields} />
-  //     )
-  //   },
-  // }
+  blocks: {
+    imageBlock: ({node}: any) => {
+      return (<ImageBlock {...node.fields} />)
+    },
+    sliderBlock: ({node}: any) => {
+      return (<SliderBlockComponent block={node.fields} />)
+    }
+  }
 })
 
 type Props = {

@@ -12,6 +12,8 @@ import LogoComponent from '@/shared/Logo'
 import Header from '@/shared/Blocks/Header'
 import CallToAction from '@/shared/Blocks/CallToAction'
 import CardsBlockComponent from '@/shared/Blocks/Cards'
+import { SliderBlock } from '@/shared/Blocks/Slider/config'
+import SliderBlockComponent from '@/shared/Blocks/Slider'
 
 
 // export async function  generateStaticParams() {
@@ -49,32 +51,29 @@ export default async function Page({ params: paramsPromise }: IPageProps) {
 
   return (
     page &&
-      <section className={styles.main}>
-        <h1 className={styles.title}>Школа танцев Royal kids</h1>
-        <LogoComponent/>
-        <p>Скоро тут будет вся информация о нас, а пока вы можете</p>
-        <Link href={`/trial`} className={styles.linkButton}>
-          Записаться на пробное занятие
-        </Link>
-        <p>и оценить насколько у нас классно!</p>
-      </section>
-    // page &&
-    //   <>
-    //     <Header/>
-    //     {blocks && blocks.length > 0 &&
-    //     blocks.map((block) => {
-    //       switch (block.blockType) {
-    //         case 'cardsBlock':
-    //           return (
-    //             <CardsBlockComponent key={block.id} block={block} />
-    //           )
-    //         case 'callToActionBlock':
-    //           return (
-    //             <CallToAction key={block.id} block={block}/>
-    //           )
-    //       }
-    //     })}
-    //   </>
+      <>
+        {blocks && blocks.length > 0 &&
+        blocks.map((block) => {
+          switch (block.blockType) {
+            case 'headerBlock':
+              return (
+                <Header key={block.id} block={block} />
+              )
+            case 'cardsBlock':
+              return (
+                <CardsBlockComponent key={block.id} block={block} />
+              )
+            case 'callToActionBlock':
+              return (
+                <CallToAction key={block.id} block={block}/>
+              )
+            case 'sliderBlock':
+              return (
+                  <SliderBlockComponent key={block.id} block={block} containerClass={styles.sliderContainer}/>
+              )
+          }
+        })}
+      </>
   )
 }
 
