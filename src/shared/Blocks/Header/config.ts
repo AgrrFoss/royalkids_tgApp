@@ -17,6 +17,13 @@ export const HeaderBlock: Block = {
       relationTo: 'media',
       required: true
     },
+    {
+      name: 'logo',
+      label: 'Логотип',
+      type: 'upload',
+      relationTo: 'media',
+      required: true
+    },
     textField('title', 'Заголовок', false, 'Используется в h1'),
     textField('description', 'Подзаголовок', false),
     superLink()

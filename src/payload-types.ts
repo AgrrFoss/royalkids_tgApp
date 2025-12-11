@@ -297,6 +297,7 @@ export interface SliderBlock {
  */
 export interface HeaderBlock {
   bg: number | Media;
+  logo: number | Media;
   /**
    * Используется в h1
    */
@@ -594,6 +595,7 @@ export interface SliderBlockSelect<T extends boolean = true> {
  */
 export interface HeaderBlockSelect<T extends boolean = true> {
   bg?: T;
+  logo?: T;
   title?: T;
   description?: T;
   link?:
