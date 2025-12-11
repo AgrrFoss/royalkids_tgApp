@@ -26,7 +26,18 @@ export const SliderBlock: Block = {
           name: 'image',
           label: 'Изображение слайда',
           type: 'upload',
-          relationTo: 'media'
+          relationTo: 'media',
+          required: true
+        },
+        {
+          name: 'visibleMode',
+          label: 'режим отображения',
+          type: 'select',
+          options: [
+            {label: 'Растягивать', value: 'fill'},
+            {label: 'Обрезать', value: 'cover'},
+            {label: 'Сохранять пропорции', value: 'contain'}
+          ]
         },
       ],
     },

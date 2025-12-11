@@ -1,0 +1,39 @@
+@import '@styles/main.scss';
+
+.wrapper {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: stretch;
+  flex-direction: column;
+  @include media(sm) {
+    flex-direction: row;
+  }
+}
+.reverse {
+  flex-direction: column-reverse;
+  @include media(sm) {
+    flex-direction: row-reverse;
+  }
+}
+.image{
+  height: auto;
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  @include media(sm) {
+    max-height: 700px;
+  }
+}
+.image_withText{
+  height: auto;
+  max-width: 100%;
+  border-radius: 20px;
+  @include media(sm) {
+    max-width: 50%;
+  }
+}
+.text {
+  text-align: start;
+}

@@ -5,7 +5,13 @@
 }
 .sliderWrapper {
   background-color: var(--bg-container);
+  overflow: hidden;
   width: 100%;
   min-height: 200px;
   border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 10px;
+  box-sizing: border-box;
 }

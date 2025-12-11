@@ -29,6 +29,8 @@
   padding: 0 20px;
 }
 @mixin container ($br: 0, $pad: 0) {
+  margin: 0 auto;
+  max-width: 768px;
   border-radius: $br;
   box-sizing: border-box;
   padding: $pad;

@@ -4,17 +4,17 @@ import {
   RichText as RichTextWithoutBlocks,
 } from '@payloadcms/richtext-lexical/react'
 import cn from 'classnames'
+import { ImageBlock } from '@blocks/ImageBlock/component'
 
 
 const jsxConverters: JSXConvertersFunction = ({defaultConverters})=>({
   ...defaultConverters,
-  // blocks: {
-  //   bgTextImageBlock: ({node}: {node: any}) => {
-  //     return (
-  //         <BgTextImage content = {node.fields} />
-  //     )
-  //   },
-  // }
+  blocks: {
+    imageBlock: ({node}: any) => {
+      //@ts-ignore
+      return (<ImageBlock {...node.fields} />)
+    }
+  }
 })
 
 type Props = {

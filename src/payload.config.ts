@@ -15,6 +15,7 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { Pages } from '@cms/collections/Pages'
 import Options from '@cms/globals/Options'
+import { Articles } from '@cms/collections/Articles'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -39,7 +40,7 @@ export default buildConfig({
   routes: {
     admin: '/cms-mng-panel'
   },
-  collections: [Admins, Media, Pages],
+  collections: [Admins, Media, Pages, Articles],
   globals: [Options],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
@@ -55,13 +56,13 @@ export default buildConfig({
   plugins: [
     payloadCloudPlugin(),
     seoPlugin({
-      collections: ['pages'],
+      collections: ['pages', 'articles'],
       globals: ['options'],
       uploadsCollection: 'media',
     }),
     addFriendlyUrl({
       enable: true,
-      currentCollections: ['pages'],
+      currentCollections: ['pages', 'articles'],
       slugField: {
         slug: 'slug',
         label: 'slug',

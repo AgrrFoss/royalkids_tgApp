@@ -1,0 +1,27 @@
+@import "@styles/main.scss";
+
+.navigation {
+  padding: 20px 20px 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.backButton {
+  background: var(--bg-container);
+  border: none;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  &::before {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    transform: rotate(45deg);
+    border-left: solid var(--text-primary) 1px;
+    border-bottom: solid var(--text-primary) 1px;
+  }
+}

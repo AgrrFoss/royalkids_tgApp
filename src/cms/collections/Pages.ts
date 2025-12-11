@@ -5,6 +5,7 @@ import { textField } from '@cms/fields/textField'
 import { CardsBlock } from '@/shared/Blocks/Cards/config'
 import { CallToActionBlock } from '@/shared/Blocks/CallToAction/config'
 import { SliderBlock } from '@/shared/Blocks/Slider/config'
+import { HeaderBlock } from '@/shared/Blocks/Header/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -28,7 +29,7 @@ export const Pages: CollectionConfig = {
       name: 'blocks',
       label: 'Блоки',
       type: 'blocks',
-      blocks: [CardsBlock, CallToActionBlock, SliderBlock]
+      blocks: [CardsBlock, CallToActionBlock, SliderBlock, HeaderBlock]
     }
   ],
 }

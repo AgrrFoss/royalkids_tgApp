@@ -62,10 +62,13 @@ export default async function Page({ params: paramsPromise }: IPageProps) {
       // </section>
     page &&
       <>
-        <Header/>
         {blocks && blocks.length > 0 &&
         blocks.map((block) => {
           switch (block.blockType) {
+            case 'headerBlock':
+              return (
+                <Header key={block.id} block={block} />
+              )
             case 'cardsBlock':
               return (
                 <CardsBlockComponent key={block.id} block={block} />
