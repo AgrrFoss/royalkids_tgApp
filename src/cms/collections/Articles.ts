@@ -11,6 +11,8 @@ import {
 } from '@payloadcms/richtext-lexical'
 import { ImageBlock } from '@blocks/ImageBlock/config'
 import { SliderBlock } from '@blocks/Slider/config'
+import { TextInFrameBLock } from '@blocks/TextInFrame/config'
+import { ColorButtonBLock } from '@blocks/ColorButton/config'
 
 export const Articles: CollectionConfig = {
   slug: 'articles',
@@ -39,7 +41,7 @@ export const Articles: CollectionConfig = {
           return [
             ...defaultFeatures,
             HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            BlocksFeature({ blocks: [ ImageBlock, SliderBlock] }),
+            BlocksFeature({ blocks: [ ImageBlock, SliderBlock, TextInFrameBLock, ColorButtonBLock] }),
             FixedToolbarFeature(),
             InlineToolbarFeature(),
             HorizontalRuleFeature(),

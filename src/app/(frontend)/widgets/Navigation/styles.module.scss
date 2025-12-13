@@ -1,16 +1,19 @@
 @import "@styles/main.scss";
 
 .navigation {
-  padding: 20px 20px 0;
   box-sizing: border-box;
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
 .backButton {
-  background: var(--bg-container);
-  border: none;
+  font-size: 1rem;
+  background: transparent;
+  background: transparent;
+  border: 1px solid var(--text-secondary);
+  border-radius: 3px;
   color: var(--text-primary);
   display: flex;
   align-items: center;
@@ -24,4 +27,7 @@
     border-left: solid var(--text-primary) 1px;
     border-bottom: solid var(--text-primary) 1px;
   }
+}
+.cross{
+  fill: var(--text-primary);
 }

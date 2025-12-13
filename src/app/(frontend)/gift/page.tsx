@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import styles from './styles.module.scss'
 import LogoComponent from '@/shared/Logo'
 import GiftForm from '@front/widgets/GIftForm'
+import NavElements from '@front/widgets/Navigation'
 
 interface IPageProps {
   params: Promise<{slug: string }>
@@ -10,7 +11,9 @@ interface IPageProps {
 }
 export default function GiftFormPage ({params: paramsPromise}: IPageProps) {
   return (
+    <>
     <div className={styles.bg}>
+      <NavElements/>
       <h1 className={styles.title}>Определи свой
         <span className={styles.partyName}>подарок</span>
       </h1>
@@ -20,5 +23,6 @@ export default function GiftFormPage ({params: paramsPromise}: IPageProps) {
         </GiftForm>
       </Suspense>
     </div>
+    </>
   )
 }

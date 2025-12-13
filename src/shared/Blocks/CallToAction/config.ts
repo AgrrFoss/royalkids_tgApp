@@ -25,6 +25,6 @@ export const CallToActionBlock: Block = {
       type: 'upload',
       relationTo: 'media'
     },
-    superLink(),
+    superLink('Кнопка', ['pages', 'articles']),
   ]
 }

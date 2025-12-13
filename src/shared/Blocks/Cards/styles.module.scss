@@ -22,15 +22,16 @@
 .link {
   position: relative;
   text-decoration: none;
+  background: $dark-bg-primary;
+  display: block;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
   color: $light-bg-container;
 }
-
-
-
-
 .content {
   aspect-ratio: 1 / .8;
-  //min-height: 150px;
+  min-height: 100px;
   padding: 0;
   box-sizing: border-box;
   position: relative;
@@ -42,11 +43,25 @@
 }
 .content_title {
   justify-content: start;
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
 }
 .title{
-  font-size: 14px;
+  color: var(--text-primary);
+  font-size: 24px;
+  text-align: start;
+  font-family: Bubble, sans-serif;
+  white-space: wrap;
+  @include media(sm) {
+    font-size: 24px;
+  }
+  @include media(md) {
+    font-size: 36px;
+  }
+}
+.cardTitle {
+  color: $dark-text-primary;
+  font-size: 20px;
   text-align: center;
   font-family: Bubble, sans-serif;
   white-space: wrap;
@@ -68,7 +83,7 @@
   font-size: .7rem;
 }
 .bigText{
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 900;
 }
 .caption {
