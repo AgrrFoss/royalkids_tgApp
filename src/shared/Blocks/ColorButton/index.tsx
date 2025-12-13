@@ -5,7 +5,6 @@ interface IColorButtonProps {
   block: ColorButtonBlock
 }
 export default async function ColorButtonComponent({block}: IColorButtonProps) {
-  console.log(block)
   return (
     block.link && <SuperButtonLink link={block.link}>
       <div  className={styles.colorLink} style={{
