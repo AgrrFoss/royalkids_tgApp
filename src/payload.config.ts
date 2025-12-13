@@ -1,7 +1,7 @@
-// storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -16,6 +16,7 @@ import { seoPlugin } from '@payloadcms/plugin-seo'
 import { Pages } from '@cms/collections/Pages'
 import Options from '@cms/globals/Options'
 import { Articles } from '@cms/collections/Articles'
+import { onInit } from '@/utilities/onInit'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -40,6 +41,7 @@ export default buildConfig({
   routes: {
     admin: '/cms-mng-panel'
   },
+  // onInit: (payload) => onInit(payload),
   collections: [Admins, Media, Pages, Articles],
   globals: [Options],
   editor: lexicalEditor(),
@@ -87,6 +89,18 @@ export default buildConfig({
         endpoint: process.env.MINIO_ENDPOINT,
         bucketEndpoint: true,
       },
+    }),
+    formBuilderPlugin({
+      fields: {
+        text: true,
+        select: true,
+        radio: true,
+        number: true,
+        country: false,
+        state: false,
+        message: false,
+      },
+      redirectRelationships: ['pages']
     }),
   ],
 })

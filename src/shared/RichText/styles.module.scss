@@ -1,0 +1,24 @@
+@import "@styles/main.scss";
+
+.richText {
+  blockquote {
+    margin: 0;
+    padding: 40px 20px 20px;
+    box-sizing: border-box;
+    background: $blockquote-bg;
+    border-top: 3px solid $blockquote-border;
+    border-bottom: 3px solid $blockquote-border;
+    color: var(--text-secondary);
+    position: relative;
+    &::before {
+      background: url('/icons/blockquote.svg');
+      content: "";
+      top: 5px;
+      left: 5px;
+      position: absolute;
+      font-size: 50px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

@@ -77,6 +77,7 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
           });
           const user = initDataUnsafe.user
           if (user) {
+            await serverLog('user')
             const processUserData = async () => {
               const isValid = await checkSignature(tgInstance.initData)
               if (isValid) {

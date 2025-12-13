@@ -9,6 +9,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import process from 'node:process'
 import styles from './styles.module.scss'
 import { TgContextProvider } from '@front/widgets/TgContext'
+import NavElements from '@front/widgets/Navigation'
 
 
 export const metadata = {

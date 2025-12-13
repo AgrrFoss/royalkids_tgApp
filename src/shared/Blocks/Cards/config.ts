@@ -39,7 +39,7 @@ export const CardsBlock: Block = {
           type: 'upload',
           relationTo: 'media'
         },
-        superLink()
+        superLink('Ссылка', ['articles'])
       ],
     }
   ]

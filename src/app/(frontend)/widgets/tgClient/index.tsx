@@ -8,7 +8,6 @@ import ym from 'react-yandex-metrika'
 import { useTg } from '@front/widgets/TgContext'
 import serverLog from '@/utilities/serverLog'
 import sendUserData from '@/utilities/sendData'
-import cn from 'classnames'
 
 interface ISubsriber {
   id?: number,

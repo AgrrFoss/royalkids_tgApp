@@ -38,16 +38,16 @@ export type CardItem = NonNullableCards[number];
 interface CardProps {
   card: CardItem;
 }
+
 function Card({ card }: CardProps) {
   const image  = card.image as Media
-  // console.log(card)
   return (
     <li className={styles.card}>
       {card.link &&
         <SuperButtonLink link={card.link} className={styles.link}>
-          {image.url && <Image src={image.url} alt={''} fill={true} className={styles.bg} />}
+          {image?.url && <Image src={image.url} alt={''} fill className={styles.bg} />}
           <div className={cn(styles.content, card.title && styles.content_title)}>
-            {card.title && <h2 className={styles.title}>{card.title}</h2>}
+            {card.title && <h2 className={styles.cardTitle}>{card.title}</h2>}
 
             {(card.smallText || card.bigText) &&
               <div className={styles.text}>
