@@ -11,7 +11,7 @@ import { parseStartParams } from '@front/widgets/tgClient'
 import { useTg } from '@front/widgets/TgContext'
 import PresentImage from '@public/images/present.webp'
 import Image from 'next/image'
-import { sendFormData } from '@/utilities/sendData'
+import { sendFormData } from '@/api/bot-api'
 
 interface IFormProps {
   purpose: 'event' | 'trial' | 'lottery'
