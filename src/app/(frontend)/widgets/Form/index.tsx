@@ -13,7 +13,7 @@ import { Popup } from '@/shared/Popup'
 import { sendFormData } from '@/utilities/sendData'
 
 interface IFormProps {
-  purpose: 'event' | 'trial'
+  purpose: 'event' | 'trial' | 'newYear'
   formName?: string
   children?: React.ReactNode
   isDarkProps?: boolean

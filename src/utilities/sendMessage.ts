@@ -7,7 +7,7 @@ import { IGiftFormInput } from '@front/widgets/GIftForm'
 export const sendMessage = async (
     data: IFormInput | IGiftFormInput,
     utm: IUtmParams,
-    formType: 'trial' | 'event' | 'lottery',
+    formType: 'trial' | 'event' | 'lottery' | 'newYear',
     username?: string) => {
   const tokenTgBot = process.env.TELEGRAM_BOT_TOKEN
   const chatId = process.env.TELEGRAM_CHAT_ID
@@ -27,6 +27,14 @@ export const sendMessage = async (
           break
         case 'trial':
           message = `<b>Новая заявка на пробное от:</b> ${userLink}\n` +
+            `<b>Имя:</b> ${data?.name}, <b>возраст:</b> ${'age' in data ? data?.age : 'не указан'}\n` +
+            `<b>Номер телефона:</b> ${data.phone}\n` +
+            (utm ?
+            `<b>utm:</b> ${utm.utm_source}, ${utm.utm_medium}, ${utm.utm_campaign}`
+            : '')
+          break
+        case 'newYear':
+          message = `<b>Новая заявка на поздравление от:</b> ${userLink}\n` +
             `<b>Имя:</b> ${data?.name}, <b>возраст:</b> ${'age' in data ? data?.age : 'не указан'}\n` +
             `<b>Номер телефона:</b> ${data.phone}\n` +
             (utm ?

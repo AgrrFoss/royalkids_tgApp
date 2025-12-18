@@ -10,6 +10,7 @@ import process from 'node:process'
 import styles from './styles.module.scss'
 import { TgContextProvider } from '@front/widgets/TgContext'
 import NavElements from '@front/widgets/Navigation'
+import SnowBackground from '@front/ded/SnowBg'
 
 
 export const metadata = {
@@ -31,6 +32,8 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           <YandexMetrika counter={Number(options.yandexMetrikaId)} />
           <TgClient baseUrl={baseUrl}>
             <main className={styles.main}>
+
+              <SnowBackground/>
               {children}
             </main>
           </TgClient>

@@ -1,0 +1,69 @@
+@import "@styles/main.scss";
+
+.bg {
+  box-sizing: border-box;
+  padding: 1rem;
+  min-height: 100vh;
+  display: flex;
+  gap: .5rem;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-weight: 600;
+  white-space: wrap;
+}
+.partyName {
+  text-transform: uppercase;
+  font-weight: 900;
+}
+.logo {
+  width: 100%;
+  margin: auto;
+  object-fit: contain;
+}
+.form {
+  flex-grow: 1;
+}
+.description {
+  max-width: 300px;
+  color: var(--text-primary);
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.subtitle {
+  margin: 0;
+  color: var(--text-primary);
+}
+.list {
+  margin: 0 0 0 .5rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+.listItem {
+  list-style: '🎄 ';
+}
+
+.price {
+  width: 100%;
+  border-radius: 20px;
+  height: 100%;
+  object-fit: contain;
+}
+
+.slideImage{
+  height: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+}
