@@ -110,7 +110,6 @@ export const localLogin = async ( data: IAuthFormInput) => {
     // @ts-ignore
     const response = await fetch(`${serverUrl}/v1.0/auth/signin`, fetchOptions)
     if (response.ok) {
-      console.log(response)
       return response.json()
     } else {
       console.error(`Ошибка при  попытке входа в систему /signin: ${response.status} ${response.statusText}`);

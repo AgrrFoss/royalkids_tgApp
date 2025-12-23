@@ -13,7 +13,7 @@ interface IAdmin {
   email: string,
 }
 
-export default function AdminPage () {
+export default function Login () {
   const [me, setMe] = useState<null | IAdmin >()
   const { user } = useUser()
   const { tg, isTgReady} = useTg()
