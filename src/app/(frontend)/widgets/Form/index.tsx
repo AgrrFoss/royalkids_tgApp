@@ -10,7 +10,7 @@ import { useUser } from '@front/widgets/UserContext/'
 import { parseStartParams } from '@front/widgets/tgClient'
 import { useTg } from '@front/widgets/TgContext'
 import { Popup } from '@/shared/Popup'
-import { sendFormData } from '@/utilities/sendData'
+import { sendFormData } from '@/api/bot-api'
 
 interface IFormProps {
   purpose: 'event' | 'trial' | 'newYear'

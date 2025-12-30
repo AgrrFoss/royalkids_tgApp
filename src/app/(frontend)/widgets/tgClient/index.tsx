@@ -7,7 +7,7 @@ import { IPageStartParams, ITgClientProps, TelegramWebApp } from '@front/widgets
 import ym from 'react-yandex-metrika'
 import { useTg } from '@front/widgets/TgContext'
 import serverLog from '@/utilities/serverLog'
-import sendUserData from '@/utilities/sendData'
+import sendUserData from '@/api/bot-api'
 
 interface ISubsriber {
   id?: number,
