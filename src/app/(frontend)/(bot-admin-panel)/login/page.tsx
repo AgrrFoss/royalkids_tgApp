@@ -1,11 +1,11 @@
 'use client'
 import { useCallback, useEffect, useState } from 'react'
 import { getMe, localLogin, telegramLogin } from '@/api/bot-api'
-import { number, string } from '@drizzle-team/brocli'
 import { useUser } from '@front/widgets/UserContext'
 import { useTg } from '@front/widgets/TgContext'
 import serverLog from '@/utilities/serverLog'
 import AuthForm, { IAuthFormInput } from '@front/widgets/AuthForm'
+import { useRouter } from 'next/navigation'
 
 interface IAdmin {
   id: string,
@@ -14,6 +14,8 @@ interface IAdmin {
 }
 
 export default function Login () {
+  const router = useRouter()
+
   const [me, setMe] = useState<null | IAdmin >()
   const { user } = useUser()
   const { tg, isTgReady} = useTg()
@@ -21,17 +23,28 @@ export default function Login () {
   const checkAuth = useCallback(async () => {
     const authUser = await getMe()
     setMe(authUser)
+    if (authUser) {
+      router.push('/dashboard')
+    }
   }, [])
+
   const signInTelegram = useCallback(async (initData: string) => {
     const authUser = await telegramLogin( initData )
     await serverLog( authUser )
     setMe(authUser)
+    if (authUser) {
+      router.push('/dashboard')
+    }
   }, [])
+
   const signInLocalAuth = useCallback(async (data: IAuthFormInput) => {
     const login = await localLogin( data )
     if (login) {
       const authUser = await getMe()
       setMe(authUser)
+      if (authUser) {
+        router.push('/dashboard')
+      }
     }
   }, [])
 
