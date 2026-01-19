@@ -1,12 +1,10 @@
 'use client'
-import styles from './styles.module.scss'
 import { useEffect, useMemo, useState } from 'react'
 import { useUser } from '@front/widgets/UserContext'
 import { useRouter } from 'next/navigation'
 import { IPageStartParams, ITgClientProps, TelegramWebApp } from '@front/widgets/tgClient/types'
 import ym from 'react-yandex-metrika'
 import { useTg } from '@front/widgets/TgContext'
-import serverLog from '@/utilities/serverLog'
 import sendUserData from '@/api/bot-api'
 
 interface ISubsriber {
@@ -102,7 +100,7 @@ export default function TgClient( { children, baseUrl }: ITgClientProps ) {
   }, [user])
 
   useEffect(() => {
-    if (isTgReady && tg) {
+    if (isTgReady === 'tg' && tg) {
       if (newUrl) { // Используем кешированный newUrl
         const urlForYM = baseUrl ? `${baseUrl}${newUrl}` : newUrl;
         ym('hit', urlForYM);

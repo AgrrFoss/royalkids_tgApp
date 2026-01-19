@@ -4,14 +4,15 @@ import { WebApp } from '@twa-dev/types';
 import { validateTgSignature } from '@front/widgets/TgContext/verify-telegram-data'
 import serverLog from '@/utilities/serverLog'
 import { useUser } from '@front/widgets/UserContext'
+import bridge from '@vkontakte/vk-bridge'
 
 interface TgContextProps {
   tg: WebApp | null;
-  isTgReady: boolean;
+  isTgReady: 'tg' | 'vk' | null;
 }
 const TgContext = createContext<TgContextProps>({
   tg: null,
-  isTgReady: false,
+  isTgReady: null,
 });
 
 interface TgProviderProps {
@@ -19,8 +20,8 @@ interface TgProviderProps {
 }
 
 const waitForTelegram = (): Promise<void> => {
-  return new Promise<void>((resolve) => {
 
+  return new Promise<void>((resolve) => {
     const checkTelegram = () => {
       if (window.Telegram && window.Telegram.WebApp) {
         resolve()
@@ -34,7 +35,7 @@ const waitForTelegram = (): Promise<void> => {
 
 export const TgContextProvider = ({children}: TgProviderProps) => {
   const [tg, setTg] = useState<WebApp | null>(null);
-  const [ isTgReady, setIsTgReady] = useState<boolean>(false);
+  const [ isTgReady, setIsTgReady] = useState<'tg' | 'vk' | null>(null);
   const [isDarkMode, setDarkMode] = useState<boolean>(false)
   const telegramInitialized = useRef(false);
   const { user,  setUser } = useUser()
@@ -59,6 +60,33 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
   }, [isDarkMode])
 
   useEffect(() => {
+    const initVk = async () =>  {
+      try {
+        const vk = await bridge.send('VKWebAppInit')
+        if (vk.result) {
+          const startParams = window.location.hash
+          await serverLog(startParams)
+          setIsTgReady('vk')
+          const userData = await bridge.send('VKWebAppGetUserInfo')
+          if(userData) {
+            setUser ({
+              id: userData.id,
+              firstName: userData.first_name,
+              lastName: userData.last_name,
+              photoUrl: userData.photo_200,
+              isDataValid: true,
+            })
+          }
+
+
+
+          return true
+        }
+      } catch (error) {
+        console.error('Ошибка при инициализации VkMiniApp:', error)
+        await serverLog('Ошибка при инициализации VkMiniApp:', error)
+      }
+    }
     const initializeTg = async () => {
       if (telegramInitialized.current) {
         return;
@@ -68,7 +96,7 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
         const tgInstance = window.Telegram?.WebApp as WebApp
         if (tgInstance) {
           setTg(tgInstance)
-          setIsTgReady(true);
+          setIsTgReady('tg');
           const initDataUnsafe = tgInstance.initDataUnsafe || {}
 
           setDarkMode(tgInstance.colorScheme === 'dark');
@@ -108,7 +136,8 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
         telegramInitialized.current = true;
       }
     }
-    initializeTg()
+    const vkAvailable = initVk()
+    if (isTgReady !== 'vk') initializeTg()
   }, [])
 
   return (
