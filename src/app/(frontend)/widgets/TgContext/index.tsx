@@ -20,10 +20,11 @@ interface TgProviderProps {
 }
 
 const waitForTelegram = (): Promise<void> => {
-
   return new Promise<void>((resolve) => {
     const checkTelegram = () => {
       if (window.Telegram && window.Telegram.WebApp) {
+
+        console.log('Работает ожидатель тг')
         resolve()
       } else {
         setTimeout(checkTelegram, 500) // Проверяем каждые 500 миллисекунд
@@ -49,6 +50,77 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
   }, [])
 
 
+  const initVk = async (startParam: string) =>  {
+    try {
+      const vk = await bridge.send('VKWebAppInit')
+      if (vk.result) {
+        setIsTgReady('vk')
+        const userData = await bridge.send('VKWebAppGetUserInfo')
+        if(userData) {
+          setUser ({
+            id: userData.id,
+            firstName: userData.first_name,
+            lastName: userData.last_name,
+            photoUrl: userData.photo_200,
+            isDataValid: true,
+            startParam
+          })
+        }
+      }
+    } catch (error) {
+      console.error('Ошибка при инициализации VkMiniApp:', error)
+      await serverLog('Ошибка при инициализации VkMiniApp:', error)
+    }
+  }
+  const initializeTg = async () => {
+    if (telegramInitialized.current) {
+      return;
+    }
+    try {
+      await waitForTelegram()
+      const tgInstance = window.Telegram?.WebApp as WebApp
+      if (tgInstance) {
+        setTg(tgInstance)
+        setIsTgReady('tg');
+        const initDataUnsafe = tgInstance.initDataUnsafe || {}
+
+        setDarkMode(tgInstance.colorScheme === 'dark');
+        tgInstance.onEvent('themeChanged', () => {
+          setDarkMode(tgInstance.colorScheme === 'dark');
+        });
+        const user = initDataUnsafe.user
+        if (user) {
+          await serverLog('user')
+          const processUserData = async () => {
+            const isValid = await checkSignature(tgInstance.initData)
+            if (isValid) {
+              setUser({
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                username: user.username,
+                photoUrl: user.photo_url,
+                isDataValid: true,
+                startParam: initDataUnsafe.start_param
+              })
+            } else {
+              console.error('Telegram data is not valid!')
+              setUser(prevState => ({...prevState, isDataValid: false}))
+            }
+          }
+          processUserData()
+        } else {
+          await serverLog('User data not available.')
+        }
+      } else {
+        await serverLog('ТГ не найден')
+      }
+    } catch (error) {
+      console.error('Ошибка при инициализации Telegram Web App:', error)
+    } finally {
+      telegramInitialized.current = true;
+    }
+  }
   useEffect(() => {
     if (isDarkMode) {
       document.body.classList.add('dark-theme');
@@ -60,84 +132,15 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
   }, [isDarkMode])
 
   useEffect(() => {
-    const initVk = async () =>  {
-      try {
-        const vk = await bridge.send('VKWebAppInit')
-        if (vk.result) {
-          const startParams = window.location.hash
-          await serverLog(startParams)
-          setIsTgReady('vk')
-          const userData = await bridge.send('VKWebAppGetUserInfo')
-          if(userData) {
-            setUser ({
-              id: userData.id,
-              firstName: userData.first_name,
-              lastName: userData.last_name,
-              photoUrl: userData.photo_200,
-              isDataValid: true,
-            })
-          }
-
-
-
-          return true
-        }
-      } catch (error) {
-        console.error('Ошибка при инициализации VkMiniApp:', error)
-        await serverLog('Ошибка при инициализации VkMiniApp:', error)
-      }
+    const searchParams = new URLSearchParams(window.location.search);
+    const isVkApp = searchParams.has('vk_app_id');
+    const isTgApp = searchParams.has('tgWebAppPlatform') || !!window.Telegram?.WebApp?.initData;
+    if (isVkApp) {
+      const startParam = window.location.hash.replace('#', '');
+      initVk(startParam);
+    } else {
+      initializeTg();
     }
-    const initializeTg = async () => {
-      if (telegramInitialized.current) {
-        return;
-      }
-      try {
-        await waitForTelegram()
-        const tgInstance = window.Telegram?.WebApp as WebApp
-        if (tgInstance) {
-          setTg(tgInstance)
-          setIsTgReady('tg');
-          const initDataUnsafe = tgInstance.initDataUnsafe || {}
-
-          setDarkMode(tgInstance.colorScheme === 'dark');
-          tgInstance.onEvent('themeChanged', () => {
-            setDarkMode(tgInstance.colorScheme === 'dark');
-          });
-          const user = initDataUnsafe.user
-          if (user) {
-            await serverLog('user')
-            const processUserData = async () => {
-              const isValid = await checkSignature(tgInstance.initData)
-              if (isValid) {
-                setUser({
-                  id: user.id,
-                  firstName: user.first_name,
-                  lastName: user.last_name,
-                  username: user.username,
-                  photoUrl: user.photo_url,
-                  isDataValid: true,
-                  startParam: initDataUnsafe.start_param
-                })
-              } else {
-                console.error('Telegram data is not valid!')
-                setUser(prevState => ({...prevState, isDataValid: false}))
-              }
-            }
-            processUserData()
-          } else {
-            await serverLog('User data not available.')
-          }
-        } else {
-          await serverLog('ТГ не найден')
-        }
-      } catch (error) {
-        console.error('Ошибка при инициализации Telegram Web App:', error)
-      } finally {
-        telegramInitialized.current = true;
-      }
-    }
-    const vkAvailable = initVk()
-    if (isTgReady !== 'vk') initializeTg()
   }, [])
 
   return (

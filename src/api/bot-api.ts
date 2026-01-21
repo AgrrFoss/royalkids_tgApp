@@ -2,6 +2,7 @@ import { UserData } from '@front/widgets/tgClient/types'
 import { IFormInput, IUtmParams } from '@front/widgets/Form'
 import { IGiftFormInput } from '@front/widgets/GIftForm'
 import { IAuthFormInput } from '@front/widgets/AuthForm'
+import serverLog from '@/utilities/serverLog'
 
 const serverUrl = process.env.NEXT_PUBLIC_NEST_BOT_API_URL
 
@@ -31,6 +32,10 @@ export const sendFormData = async (
   user: UserData | null,
   utmParams: IUtmParams,
   formName: string) => {
+
+  await serverLog('user from sendFormData: ', user)
+
+
   const sendUser = {
     id: user?.id,
     firstName: user?.firstName,

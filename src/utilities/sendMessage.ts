@@ -53,8 +53,6 @@ export const sendMessage = async (
       await bot.sendMessage(chatId, message, {
         parse_mode: 'HTML',
       });
-
-      console.log('функция отправки сработала')
     } catch (error: any) {
       console.error(error)
     }
