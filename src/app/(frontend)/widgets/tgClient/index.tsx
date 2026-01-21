@@ -89,9 +89,9 @@ export default function TgClient( { children, baseUrl }: ITgClientProps ) {
         username: user.username,
       }
       switch (isTgReady) {
-        case 'vk': subscriber.vkId = user.id
+        case 'vk': subscriber.vkId = user.vkId
           break
-        case 'tg': subscriber.tgId = user.id
+        case 'tg': subscriber.tgId = user.tgId
           break
       }
       if (parsedParams) {

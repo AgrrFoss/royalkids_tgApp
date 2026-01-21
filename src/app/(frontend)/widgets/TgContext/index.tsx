@@ -58,7 +58,7 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
         const userData = await bridge.send('VKWebAppGetUserInfo')
         if(userData) {
           setUser ({
-            id: userData.id,
+            vkId: userData.id,
             firstName: userData.first_name,
             lastName: userData.last_name,
             photoUrl: userData.photo_200,
@@ -95,7 +95,7 @@ export const TgContextProvider = ({children}: TgProviderProps) => {
             const isValid = await checkSignature(tgInstance.initData)
             if (isValid) {
               setUser({
-                id: user.id,
+                tgId: user.id,
                 firstName: user.first_name,
                 lastName: user.last_name,
                 username: user.username,

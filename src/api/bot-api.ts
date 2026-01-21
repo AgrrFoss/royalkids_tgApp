@@ -32,12 +32,10 @@ export const sendFormData = async (
   user: UserData | null,
   utmParams: IUtmParams,
   formName: string) => {
-
-  await serverLog('user from sendFormData: ', user)
-
-
   const sendUser = {
     id: user?.id,
+    tgId: user?.tgId,
+    vkId: user?.vkId,
     firstName: user?.firstName,
     lastName: user?.lastName,
     username: user?.username,
