@@ -58,6 +58,10 @@ export const sendFormData = async (
     },
     body: JSON.stringify(formData)
   }
+
+  console.log('serverUrl: ', serverUrl)
+
+
   const response = await fetch(`${serverUrl}${endpoint}`, fetchOptions)
   const json = await response.json()
   return json
