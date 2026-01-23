@@ -1,7 +1,9 @@
 import { ReactNode } from 'react'
 
 export interface UserData {
-  id?: number
+  id?: string
+  vkId?: number
+  tgId?: number
   firstName?: string
   lastName?: string
   username?: string

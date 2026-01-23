@@ -67,7 +67,6 @@ export default function Form ({purpose, formName, children, isDarkProps, classNa
     const utm_campaign = searchParams.get('utm_campaign') || paramsInUser?.ucm || '';
     const utm_term = searchParams.get('utm_term') || paramsInUser?.utr || '';
     const utm_content = searchParams.get('utm_content') || paramsInUser?.ucn || '';
-
     setUtmParams({
       utm_source,
       utm_medium,
@@ -83,7 +82,7 @@ export default function Form ({purpose, formName, children, isDarkProps, classNa
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try{
       await sendFormData('/applications', data, user, utmParams, (formName || purpose))
-      await sendMessage(data, utmParams, purpose, user?.username)
+      await sendMessage(data, utmParams, purpose, user)
       setSubmit(true)
       reset()
       setTimeout(() => {
@@ -92,7 +91,6 @@ export default function Form ({purpose, formName, children, isDarkProps, classNa
     } catch (error) {
       console.error('Ошибка отправки:', error);
     }
-
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={cn(styles.form, className)}>

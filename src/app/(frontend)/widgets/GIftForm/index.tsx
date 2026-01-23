@@ -123,7 +123,7 @@ export default function GiftForm ({purpose, formName, children, isDarkProps, cla
       if(user) {
         await sendFormData('/applications', data, user, utmParams, (formName || purpose))
       }
-      await sendMessage(data, utmParams, purpose, user?.username)
+      await sendMessage(data, utmParams, purpose, user)
       setSubmit(true)
       reset()
     } catch (error) {

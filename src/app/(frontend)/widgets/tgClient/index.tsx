@@ -1,16 +1,17 @@
 'use client'
-import styles from './styles.module.scss'
 import { useEffect, useMemo, useState } from 'react'
 import { useUser } from '@front/widgets/UserContext'
 import { useRouter } from 'next/navigation'
 import { IPageStartParams, ITgClientProps, TelegramWebApp } from '@front/widgets/tgClient/types'
 import ym from 'react-yandex-metrika'
 import { useTg } from '@front/widgets/TgContext'
-import serverLog from '@/utilities/serverLog'
 import sendUserData from '@/api/bot-api'
+import serverLog from '@/utilities/serverLog'
 
 interface ISubsriber {
-  id?: number,
+  id?: string,
+  tgId?: number,
+  vkId?: number,
   firstName?: string,
   lastName?: string,
   photoUrl?: string | undefined;
@@ -82,11 +83,16 @@ export default function TgClient( { children, baseUrl }: ITgClientProps ) {
   useEffect(() => {
     if (user) {
       const subscriber: ISubsriber = {
-        id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         photoUrl: user.photoUrl,
         username: user.username,
+      }
+      switch (isTgReady) {
+        case 'vk': subscriber.vkId = user.vkId
+          break
+        case 'tg': subscriber.tgId = user.tgId
+          break
       }
       if (parsedParams) {
         subscriber.utmSource = parsedParams.usr || ''
@@ -99,17 +105,18 @@ export default function TgClient( { children, baseUrl }: ITgClientProps ) {
       }
       sendUser()
     }
-  }, [user])
+  }, [user, parsedParams])
 
   useEffect(() => {
-    if (isTgReady && tg) {
+    console.log(isTgReady)
+    if (isTgReady !== null) {
       if (newUrl) { // Используем кешированный newUrl
         const urlForYM = baseUrl ? `${baseUrl}${newUrl}` : newUrl;
         ym('hit', urlForYM);
         router.push(newUrl);
       }
     }
-  }, [baseUrl, isTgReady, router, tg, user])
+  }, [baseUrl, isTgReady, router, user])
 
   return (
     <div>

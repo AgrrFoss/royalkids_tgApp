@@ -1,6 +1,6 @@
 'use server'
 
-const serverLog = async (log: string) => {
-  console.log(log);
+const serverLog = async (...args: any) => {
+  console.log(...args);
 }
 export default serverLog;

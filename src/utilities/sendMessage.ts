@@ -2,20 +2,24 @@
 import TelegramBot from 'node-telegram-bot-api'
 import { IFormInput, IUtmParams } from '@front/widgets/Form'
 import { IGiftFormInput } from '@front/widgets/GIftForm'
+import { UserData } from '@front/widgets/tgClient/types'
 
 
 export const sendMessage = async (
     data: IFormInput | IGiftFormInput,
     utm: IUtmParams,
     formType: 'trial' | 'event' | 'lottery' | 'newYear',
-    username?: string) => {
+    user: UserData | null,) => {
   const tokenTgBot = process.env.TELEGRAM_BOT_TOKEN
   const chatId = process.env.TELEGRAM_CHAT_ID
+  const username = user?.username
   if(tokenTgBot && chatId) {
     try {
       let message = ''
-      const userHref = username && `https://t.me/${username}`
-      const userLink = username && `<a href="${userHref}">${username}</a>`;
+      let userHref: string | undefined = undefined
+      if (user?.tgId) userHref = username && `https://t.me/${username}`
+      if (user?.vkId) userHref = `https://vk.com/id${user?.vkId}`
+      const userLink = username ? `<a href="${userHref}">${username}</a>` : `<a href="${userHref}">${user?.firstName}</a>`;
       switch (formType) {
         case 'event':
           message = `<b>Новая заявка на праздник от:</b> ${username ? userLink : 'Пользователь не определен'}\n` +
@@ -53,8 +57,6 @@ export const sendMessage = async (
       await bot.sendMessage(chatId, message, {
         parse_mode: 'HTML',
       });
-
-      console.log('функция отправки сработала')
     } catch (error: any) {
       console.error(error)
     }
